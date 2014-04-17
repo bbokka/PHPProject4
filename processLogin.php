@@ -12,19 +12,18 @@
 	
 	//echo "the pwd is ".$pwd;
 	//querying the database
-	$query = "	SELECT 
-					id,
-					email,
-					fname,
-					password
+	$query =" 	SELECT id,
+					   email,
+					   fname,
+					   password,
+					   role_id
 				FROM 
-					P4_users
+					P4_users 
 				WHERE 
-					email = '$uname' 
-				AND 
-					password = '$pwd'
-				AND 
-					Is_verified='$id'";
+					email = '$uname'
+					AND	password = '$pwd'
+					AND Is_verified = 1
+					AND Is_archived = 0";
 								
 	$result = mysql_query($query) or die ("Unable to verify user because " . mysql_error());
 	$count = mysql_num_rows($result);

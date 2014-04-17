@@ -1,13 +1,13 @@
 <?php
 	session_start();
 	if($_SESSION['usr']==0)
+	{
+		header("Location: login.php");
+	}
+	else if($_SESSION['usr']==1)
+	{
+		if($_SESSION['admin']==1 || $_SESSION['moderator']==1)
 		{
-			header("Location: login.php");
-		}
-		else if($_SESSION['usr']==1)
-		{
-		  if($_SESSION['admin']==1 || $_SESSION['moderator']==1)
-		  {
 ?>
 
 <!DOCTYPE html>

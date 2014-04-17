@@ -1,0 +1,21 @@
+	if (empty($_POST['emailId']))
+					{
+					?>
+						<script type="text/javascript">
+							alert("Please enter your EMAIL ");
+							history.back();
+						</script>	
+					<?php
+					}
+					if (empty($_POST['pwd']))
+					{
+					?>
+						<script type="text/javascript">
+							alert("Please enter your Password ");
+							history.back();
+						</script>
+					<?php	
+					}
+					
+retriev threads
+//$sql =  "select thread_id, thread_name, no_of_replies from (select post_topic, count(post_id) no_of_replies from P2_posts group by post_topic) A, P2_thread T where A.post_topic(+)= T.thread_id";by vasanth

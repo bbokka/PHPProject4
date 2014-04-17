@@ -1,0 +1,1 @@
+ select thread_id, thread_name, no_of_replies from (select post_topic, count(post_id) no_of_replies from P2_posts groupby post_topic) A, P2_thread T where A.post_topic(+)= T.thread_id

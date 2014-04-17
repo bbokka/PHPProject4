@@ -1,0 +1,155 @@
+	
+	require_once('config.php');
+	
+	$query="select count(post_id)  as number from P2_posts where post_topic='$thread'";
+	
+	
+	
+	$result1 = mysql_query($query) or die ("Unable to verify user because " . mysql_error());
+	
+	echo "<h4>Posts</h4>";
+	while($row = mysql_fetch_assoc($result1))
+	{
+		echo '<div style="width:100%; max-width:1024px; min-height:50px; padding:10px;-webkit-border-radius: 10px;
+			-moz-border-radius: 10px;box-shadow: 10px 10px 5px #888888;
+			border-radius: 10px; background-color:white; margin-bottom : 5px;">';
+		echo '<a style="color:black!important" href="#">'. $row['number'];
+		echo '</div>';
+		
+	}
+?>
+
+//////////////////////////////////////////
+//query to get the number of posts in that thread	
+	$query="select count(post_id)  as number from P2_posts where post_topic='$thread'";
+	$result = mysql_query($query) or die ("Unable to verify user because " . mysql_error());
+	$row=mysql_fetch_assoc($result);
+	$rec_count=$row[0];
+		
+	if( isset($_GET{'page'} ) )
+	{
+		$page = $_GET{'page'} + 1;
+		$offset = $rec_limit * $page ;
+	}
+	
+	else
+	{
+		$page = 0;
+		$offset = 0;
+	}
+	
+	$left_rec = $rec_count - ($page * $rec_limit);
+	
+	$retreive="SELECT post_id, post_content,title,post_date FROM P2_posts,P2_user_level,P2_user_login where post_topic='$thread' and rank_id=rank and login_id=post_by order by post_date";
+	$result1 = mysql_query($retreive) or die ("Unable to verify user because " . mysql_error());
+	
+	echo "<h4>Posts</h4>";
+	while($row = mysql_fetch_assoc($result1))
+	{
+		echo '<div style="width:100%; max-width:1024px; min-height:50px; padding:10px;-webkit-border-radius: 10px;
+			-moz-border-radius: 10px;box-shadow: 10px 10px 5px #888888;
+			border-radius: 10px; background-color:white; margin-bottom : 5px;">';
+		echo '<a style="color:black!important" href="#">'. $row['post_content']. $row['title'];
+		echo '</div>';
+		
+	}
+	
+	if( $page > 0 )
+	{
+		$last = $page - 2;
+		echo "<a style='color:orangered' href=\"$_PHP_SELF?page=$last\">Last 5 Records</a> |";
+		echo "<a style=' color:orangered' href=\"$_PHP_SELF?page=$page\">Next 5 Records</a>";
+	}
+	else if( $page == 0 )
+	{
+		echo "<a style='color:orangered' href=\"$_PHP_SELF?page=$page\">Next 5 Records</a>";
+	}
+	else if( $left_rec < $rec_limit )
+	{
+		$last = $page - 2;
+		echo "<a style='color:orangered' href=\"$_PHP_SELF?page=$last\">Last 5 Records</a>";
+	}
+?>
+
+
+////////////////////////////////////////////////////////
+
+//query to get the number of posts in that thread	
+	$query="select count(post_id) from P2_posts where post_topic='$thread'";
+	$result = mysql_query($query) or die ("Unable to verify user because " . mysql_error());
+	$row=mysql_fetch_array($result);
+	$rows=$row[0];
+	
+	//echo $rows;
+	 
+	$page_rows = 5;
+	
+	$last = ceil($rows/$page_rows);
+	
+	if($last < 1){
+	$last = 1;
+	}
+	
+	$pagenum = 1;
+	if(isset($_GET['pn'])){
+	$pagenum = preg_replace('#[^0-9]#', '', $_GET['pn']);
+    }
+	
+	if ($pagenum < 1) { 
+		$pagenum = 1; 
+	} else if ($pagenum > $last) { 
+		$pagenum = $last; 
+	}
+	
+	$limit = 'LIMIT ' .($pagenum - 1) * $page_rows .',' .$page_rows;
+	
+	$retreive="SELECT post_id, post_content,title,post_date FROM P2_posts,P2_user_level,P2_user_login where post_topic='$thread' and rank_id=rank and login_id=post_by order by post_date DESC $limit";
+	
+	$result1 = mysql_query($retreive) or die ("Unable to verify user because " . mysql_error());
+	
+	$paginationCtrls = '';
+
+	if($last != 1){
+	
+	if ($pagenum > 1) {
+        $previous = $pagenum - 1;
+		$paginationCtrls .= '<a href="'.$_SERVER['PHP_SELF'].'?thread_id&pn='.$previous.'">Previous</a> &nbsp; &nbsp; ';
+		
+		for($i = $pagenum-4; $i < $pagenum; $i++){
+			if($i > 0){
+		        $paginationCtrls .= '<a href="'.$_SERVER['PHP_SELF'].'?pn='.$i.'">'.$i.'</a> &nbsp; ';
+			}
+	    }
+    }
+	$paginationCtrls .= ''.$pagenum.' &nbsp; ';
+	
+	for($i = $pagenum+1; $i <= $last; $i++){
+		$paginationCtrls .= '<a href="'.$_SERVER['PHP_SELF'].'?pn='.$i.'">'.$i.'</a> &nbsp; ';
+		if($i >= $pagenum+4){
+			break;
+		}
+	}
+	
+	if ($pagenum != $last) {
+        $next = $pagenum + 1;
+        $paginationCtrls .= ' &nbsp; &nbsp; <a href="'.$_SERVER['PHP_SELF'].'?pn='.$next.'">Next</a> ';
+    }
+}
+	$list = '';
+
+	echo "<h4>Posts</h4>";
+	
+	while($row = mysql_fetch_assoc($result1))
+	{
+		echo '<div style="width:100%; max-width:1024px; min-height:50px; padding:10px;-webkit-border-radius: 10px;
+			-moz-border-radius: 10px;box-shadow: 10px 10px 5px #888888;
+			border-radius: 10px; background-color:white; margin-bottom : 5px;">';
+		echo '<a style="color:black!important" href="#">'. $row['post_content']. $row['title'];
+		echo '</div>';
+		
+	}
+	<div>
+		  <h4><?php echo "Number of posts per Page: (<b>$rows</b>)"; ?></h4>
+		  <h4><?php echo "Page <b>'$pagenum'</b> of <b>'$last'</b>"; ?></h4>
+		  <h4 textcolor='red'><?php echo $paginationCtrls; ?></h4>
+		</div>

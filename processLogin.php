@@ -31,12 +31,14 @@
 	if ($count == 1)
 	{
 		$row = mysql_fetch_assoc($result);
-		$_SESSION['name'] = $row['fname'];
-		$_SESSION['login_id'] = $row['id'];
-		$_SESSION['rank']=$row['role_id'];
-		$_SESSION['admin'] = 0;
-		$_SESSION['moderator']=0;
-		$_SESSION['usr']=0;
+		
+		$_SESSION['name'] 		= $row['fname'];
+		$_SESSION['login_id'] 	= $row['id'];
+		$_SESSION['rank']		= $row['role_id'];
+		$_SESSION['admin']	 	= 0;
+		$_SESSION['moderator']	= 0;
+		$_SESSION['usr']		= 0;
+		
 		if(($_SESSION['rank']==1) || ($_SESSION['rank']==4))
 		{
 			$_SESSION['admin']=1;

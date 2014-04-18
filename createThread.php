@@ -59,8 +59,9 @@
 				border-radius: 10px; background-color:white; margin-bottom : 5px;">
 				
 				<form method='post' action='insertThread.php'>
-				Create Topic: <textarea name='forum' /></textarea><br>
-				<input class="btn" type='submit' value='Add Topic' />
+					<input type="hidden" name="category_id" value="<?php echo $_REQUEST['category_id'] ?>" />
+					Create Topic: <textarea name='forum' /></textarea><br>
+					<input class="btn" type='submit' value='Add Topic' />
 				 </form>
 			</div><h5>
 			

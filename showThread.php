@@ -61,7 +61,8 @@
 			include 'retrieveThreads.php'
 		?>	
 		<form action="createThread.php" name="form" method="GET">
-		<input class="btn" type="submit" value="Create Topic">	
+			<input type="hidden" name="category_id" value="<?php echo $_REQUEST['category_id'] ?>" />
+			<input class="btn" type="submit" value="Create Topic">	
 		</form>
 	</div>
 </section>

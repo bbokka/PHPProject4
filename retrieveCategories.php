@@ -7,8 +7,9 @@
 	$query="	SELECT 
 					id,
 					cat_name,
-					cat_description 
-				FROM P4_categories";
+					cat_description
+				FROM P4_categories 
+				where Is_archived = 0 ";
 	$result = mysql_query($query) or die ("Unable to verify user because " . mysql_error());
 	
 	echo '<h3  style="color:blue!important"> Forum Category:</h3>';

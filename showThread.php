@@ -16,11 +16,9 @@
 <script src="js/superfish.js"></script>
 <script src="js/forms.js"></script>
 <style>
-	.category_div
+	.Thread_div
 	{
-		style="border:2px solid #a1a1a1; 
-		border-radius:12px; 
-		padding: 10px;
+		border: "2px solid #a1a1a1"; 
 	}
 </style>
 </head>

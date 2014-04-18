@@ -48,9 +48,10 @@
 					$_SESSION['thread_id']=$thread_id;
 					
 					$retreive="SELECT 
+									category_id,
 									thread_name 
 							   FROM
-									P3_thread 
+									P4_threads 
 							   WHERE
 									thread_id ='$thread_id'";
 					$result = mysql_query($retreive) or die ("Unable to verify user because " . mysql_error());
@@ -62,8 +63,9 @@
 					?>
 					<div class="btns" > 
 						<form action="insertEditedThread.php"  method="post">
-						<textarea autofocus rows ="6" cols="56" name="threadEdited" ><? echo $row['thread_name']; ?></textarea><br>
-						<input class="btn" align="center" type="submit" value="editThread">
+							<input name="category_id" type="hidden" value="<? echo $row['category_id']; ?>" />
+							<textarea autofocus rows ="6" cols="56" name="threadEdited" ><? echo $row['thread_name']; ?></textarea><br>
+							<input class="btn" align="center" type="submit" value="editThread">
 						</form>
 					</div>
 					<?php

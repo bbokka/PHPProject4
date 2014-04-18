@@ -74,25 +74,32 @@
 									thread_id = $thread_id";
 						$result2 = mysql_query($query1) or die ("Unable to verify user because " . mysql_error());
 						$row2 = mysql_fetch_assoc($result2);
-						echo 'Replies: '.$row2['no_of_replies'];
+						echo $row2['no_of_replies'];
 					
 			echo '	</div>
 					<div class="topicActions">
 					';
-					if($_SESSION['rank']!=3)
+					if($row['is-archived'] == 0)
 					{
-						// Edit Button
-						echo '	<form action="editThread.php" method="post">
-									<input type="hidden" name="thread_id" value="'.$row['thread_id'].'"/>
-									<input class="btn" type="submit" value="Edit Topic" />
-								</form>';
+						if($_SESSION['rank']!=3)
+						{
+							// Edit Button
+							echo '	<form action="editThread.php" method="post">
+										<input type="hidden" name="thread_id" value="'.$row['thread_id'].'"/>
+										<input class="btn" type="submit" value="Edit" />
+									</form>';
 						
-						// Delete Button
-						echo '	<form action="deleteThread.php" method="post">
-									<input type="hidden" name="thread_id" value="'.$row['thread_id'].'"/>
-									<input type="hidden" name="category_id" value="'.$category.'"/>
-									<input class="btn" type="submit" value="Delete Topic" />
-								</form>';
+							// Delete Button
+							echo '	<form action="deleteThread.php" method="post">
+										<input type="hidden" name="thread_id" value="'.$row['thread_id'].'"/>
+										<input type="hidden" name="category_id" value="'.$category.'"/>
+										<input class="btn" type="submit" value="Delete" />
+									</form>';
+						}
+					}
+					else
+					{
+						echo 'Topic has been deleted';
 					}
 			echo '	</div>
 					<div class="topicActionDescription">

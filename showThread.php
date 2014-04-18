@@ -16,9 +16,45 @@
 <script src="js/superfish.js"></script>
 <script src="js/forms.js"></script>
 <style>
-	.Thread_div
+	.topicContainer div
 	{
-		border: "2px solid #a1a1a1"; 
+		display: inline-block;
+	}
+	.topicContainer
+	{
+		background: white;
+		width: 100%;
+		display: inline-block;
+		padding: 10px;
+		margin: 2px auto;
+		
+		-webkit-border-radius: 10px;
+		-moz-border-radius: 10px;
+		border-radius: 10px;
+		
+	}
+	.topicContainer .topicName
+	{
+		width: 45%;
+		padding-left: 2%;
+	}
+	.topicContainer .topicReplies
+	{
+		width: 10%;
+	}
+	.topicContainer .topicActions
+	{
+		width: 20%;
+	}
+	.topicContainer .topicActionDescription
+	{
+		width: 20%;
+	}
+	.topicContainer .topicName:hover
+	{
+		-webkit-transform: scale(1.1);
+		-webkit-transition-timing-function: ease-out;
+		-webkit-transition-duration: 250ms;
 	}
 </style>
 </head>
@@ -55,6 +91,20 @@
 <section id="content">
 <div sytle="margin : 0px auto">
 	<div class="main">
+		<div class="topicContainer" style="background: #123123; color: white">
+			<div class="topicName">
+				Name
+			</div>
+			<div class="topicReplies">
+				Replies
+			</div>
+			<div class="topicActions">
+				Actions
+			</div>
+			<div class="topicActionDescription">
+				Audits
+			</div>
+		</div>
 		<?php
 			include 'retrieveThreads.php'
 		?>	

@@ -71,17 +71,17 @@
 		<?php
 			require_once("config.php");
 			$query = "SELECT 
-						UL.rank_id ,
-						U.username, 
-						UL.title, 
-						U.login_id 
+						U.id, 
+						U.username,
+						UL.id ,						
+						UL.Name
 					FROM
-						P3_user_login U,
-						P3_user_level UL 
+						P4_users U,
+						P4_roles UL 
 					WHERE
-						U.rank=UL.rank_id 
+						U.role_id=UL.id 
 					ORDER BY 
-						UL.rank_id";
+						UL.id";
 			$result = mysql_query($query) or die ("Unable to verify user because " . mysql_error());
 		?>
 		

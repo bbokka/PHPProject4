@@ -78,22 +78,22 @@
 			
 			//query to get the number of posts in that thread	
 			$query="SELECT
-					count(login_id )
+					count( id )
 				FROM 
-					P4_user_login" ;
+					P4_users" ;
 			$result = mysql_query($query) or die ("Unable to verify user because " . mysql_error());
 			$row=mysql_fetch_array($result);
 			$rows=$row[0];
 			
 			//query to set the page limit value
 			$query1="SELECT 
-					limit_value 
+					value 
 				FROM 
-					P4_limit";
+					P4_setting";
 					
 			$result1 = mysql_query($query1) or die ("Unable to verify user because " . mysql_error());
 			$row1=mysql_fetch_array($result1);
-			$page_rows = $row1['limit_value'];
+			$page_rows = $row1['value'];
 			
 			$last = ceil($rows/$page_rows);
 	
@@ -115,21 +115,21 @@
 			
 			$limit = 'LIMIT ' .($pagenum - 1) * $page_rows .',' .$page_rows;
 			
-			$retreive = "SELECT 
+			$retreive = "SELECT	
+							U.id,
 							U.fname,
-							U.rank,
-							UL.rank_id ,
 							U.username,
-							UL.title,
-							U.login_id 
+							U.role_id,
+							UL.id ,
+							UL.Name
 						FROM 
-							P4_user_login U,
-							P4_user_level UL 
+							P4_users U,
+							P4_roles UL 
 						WHERE 
-							U.rank=UL.rank_id 
+							U.role_id = UL.id
 						ORDER BY
-							UL.rank_id ASC $limit";
-			$result = mysql_query($retreive) or die ("Unable to verify user because " . mysql_error());
+							UL.id ASC $limit";
+			$result2 = mysql_query($retreive) or die ("Unable to verify user because " . mysql_error());
 			
 			$paginationCtrls = '';
 
@@ -170,18 +170,18 @@
 			
 			<h5 style="color:blue"> Change The Roles </h5>	
 			<?php
-				while($row = mysql_fetch_assoc($result)) 
+				while($row2 = mysql_fetch_assoc($result2)) 
 				{
-					if($row['fname']!=$_SESSION['name'])
+					if($row2['fname']!=$_SESSION['name'])
 					{
 						echo '<h5> <div style="width:100%; max-width:1024px; min-height:50px; padding:10px; -webkit-border-radius: 10px; -moz-border-radius: 10px;box-shadow: 10px 10px 5px #888888; border-radius: 10px; background-color:white; margin-bottom : 5px;">';
-						echo  $row['username'].'  <-'.$row['title'].'->';
-						if($row['rank_id'] != 4)
+						echo  $row2['username'].'  <-'.$row2['Name'].'->';
+						if($row2['UL.id'] != 4)
 						echo '<form action="changeRole.php" name="form" method="post">
 							  <input type="radio" name="role" value="1">Admin
 							  <input type="radio" name="role" value="2">Moderator
 							  <input type="radio" name="role" value="3">User<br>
-							  <input type="hidden" name="userid" value='.$row['login_id'].'>
+							  <input type="hidden" name="userid" value='.$row2['U.id'].'>
 							  <input class="btn" type="submit" value="Update" >
 							  </form>';
 						echo '</div></h5>';

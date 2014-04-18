@@ -18,9 +18,31 @@
 <style>
 	.category_div
 	{
-		style="border:2px solid #a1a1a1; 
-		border-radius:12px; 
+		background: white;
+		width: 100%;
+		display: block;
 		padding: 10px;
+		margin: 5px auto;
+		-webkit-border-radius: 10px;
+		-moz-border-radius: 10px;
+		border-radius: 10px;
+	}
+	.category_div .category_name
+	{
+		width: 35%;
+		display: inline-block;
+		margin-left: 2%;
+	}
+	.category_div .category_description
+	{
+		width: 60%;
+		display: inline-block;
+	}
+	.category_div .category_name:hover
+	{
+		-webkit-transform: scale(1.1);
+		-webkit-transition-timing-function: ease-out;
+		-webkit-transition-duration: 250ms;
 	}
 </style>
 </head>
@@ -57,6 +79,15 @@
 <section id="content">
 	<div sytle="margin : 0px auto">
 		<div class="main">
+		<h3  style="color:blue!important"> Forum Category: </h3>
+		<div class="category_div" style="background: #123123; color: white">
+			<div class="category_name">  
+				Category Name
+			</div>
+			<div class="category_description"> 
+				Description
+			</div>
+		</div>
 		<?php
 			include 'retrieveCategories.php';
 		?>

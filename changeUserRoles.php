@@ -176,15 +176,17 @@
 					{
 						echo '<h5> <div style="width:100%; max-width:1024px; min-height:50px; padding:10px; -webkit-border-radius: 10px; -moz-border-radius: 10px;box-shadow: 10px 10px 5px #888888; border-radius: 10px; background-color:white; margin-bottom : 5px;">';
 						echo  $row2['username'].'  <-'.$row2['Name'].'->';
-						if($row2['UL.id'] != 4)
-						echo '<form action="changeRole.php" name="form" method="post">
-							  <input type="radio" name="role" value="1">Admin
-							  <input type="radio" name="role" value="2">Moderator
-							  <input type="radio" name="role" value="3">User<br>
-							  <input type="hidden" name="userid" value='.$row2['U.id'].'>
-							  <input class="btn" type="submit" value="Update" >
-							  </form>';
-						echo '</div></h5>';
+						if($row2['role_id'] != 4)
+						{
+							echo '<form action="changeRole.php" name="form" method="post">
+								  <input type="radio" name="role" value="1">Admin
+								  <input type="radio" name="role" value="2">Moderator
+								  <input type="radio" name="role" value="3">User<br>
+								  <input type="hidden" name="userid" value='.$row2['id'].'>
+								  <input class="btn" type="submit" value="Update" >
+								  </form>';
+							echo '</div></h5>';
+						}
 					}
 				}
 				$role = $_POST['role'];

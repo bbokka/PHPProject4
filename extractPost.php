@@ -17,14 +17,6 @@
 <script src="js/jquery-1.7.1.min.js" ></script>
 <script src="js/superfish.js"></script>
 <script src="js/forms.js"></script>
-<style>
-	.category_div
-	{
-		style="border:2px solid #a1a1a1; 
-		border-radius:12px; 
-		padding: 10px;
-	}
-</style>
 </head>
 <body>
 <header>
@@ -66,16 +58,22 @@
 		
 		if(!is_numeric($thread))
 		{
-			echo "<script>alert('Only numeric value '); location.href='showCategory.php';</script>";
+			echo "	<script> 
+						alert('Only numeric value '); 
+						location.href='showCategory.php'; 
+					</script> ";
 		}
 		else 
 		{
-			$query="select * from P3_posts where post_topic = '$thread'";
+			$query="select * from P4_posts where thread_id = '$thread'";
 			$result = mysql_query($query) or die ("Unable to verify user because " . mysql_error());
-			$num_rows=mysql_fetch_array($result);
+			$num_rows = mysql_fetch_array($result);
 			if($num_rows ==0)
 			{
-				echo "<script>alert('No threads are avialable'); location.href='showCategory.php';</script>";
+				$have_no_threads = 1;
+				echo "	<div class=\"error\"> 
+							This topic is empty.
+						</div>";
 			}
 			else if($num_rows>0)
 			{

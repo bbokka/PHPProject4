@@ -48,7 +48,7 @@
 			$headers.= "From: bbokka@cs.odu.edu\r\n";
 								
 			$message="click the below link to reset your password.";
-			$message.="http://weiglevm.cs.odu.edu/~bbokka/proj4/forgot.php";
+			$message.="http://weiglevm.cs.odu.edu/~bbokka/devsandbox/PHPProject4forgot.php";
 			$message.="Reset the password Immediately";
 		}
 		else if($choice ==2)
@@ -62,7 +62,7 @@
 			$headers.= "From: bbokka@cs.odu.edu\r\n";
 							
 			$message ="<h3><em><font face='verdana' color='red'>Thank you for the Request.</font></em></h3><br>";
-			$message.="<a href=\"http://weiglevm.cs.odu.edu/~bbokka/proj4/forgot.php\">Please click this link to reset your password.</a> <br>";
+			$message.="<a href=\"http://weiglevm.cs.odu.edu/~bbokka/devsandbox/PHPProject4/forgot.php\">Please click this link to reset your password.</a> <br>";
 			$message.="<em><font face='verdana' color='black'>And Reset the password Immediately</font></em><br>";
 		}
 		mail($to,$subject,$message,$headers);

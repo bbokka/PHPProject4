@@ -78,18 +78,18 @@
 			
 			//query to get the number of posts in that thread	
 			$query="SELECT
-					count( id )
-				FROM 
-					P4_users" ;
+						count( id )
+					FROM 
+						P4_users" ;
 			$result = mysql_query($query) or die ("Unable to verify user because " . mysql_error());
 			$row=mysql_fetch_array($result);
 			$rows=$row[0];
 			
 			//query to set the page limit value
 			$query1="SELECT 
-					value 
-				FROM 
-					P4_setting";
+						value 
+					FROM 
+						P4_setting";
 					
 			$result1 = mysql_query($query1) or die ("Unable to verify user because " . mysql_error());
 			$row1=mysql_fetch_array($result1);
@@ -116,7 +116,7 @@
 			$limit = 'LIMIT ' .($pagenum - 1) * $page_rows .',' .$page_rows;
 			
 			$retreive = "SELECT	
-							U.id,
+							U.id AS login,
 							U.fname,
 							U.username,
 							U.role_id,
@@ -182,7 +182,7 @@
 								  <input type="radio" name="role" value="1">Admin
 								  <input type="radio" name="role" value="2">Moderator
 								  <input type="radio" name="role" value="3">User<br>
-								  <input type="hidden" name="userid" value='.$row2['id'].'>
+								  <input type="hidden" name="userid" value='.$row2['login'].'>
 								  <input class="btn" type="submit" value="Update" >
 								  </form>';
 							echo '</div></h5>';

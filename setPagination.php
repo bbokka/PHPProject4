@@ -71,19 +71,22 @@
 		<?php
 			require_once("config.php");
 			$query ="SELECT 
-							UL.rank_id ,
+							UL.id ,
+							UL.Name, 
 							U.username, 
-							UL.title, 
-							U.login_id 
+							U.id AS login 
 					FROM
-						P4_user_login U,
-						P4_user_level UL 
+						P4_users U,
+						P4_roles UL 
 					WHERE
-						U.rank=UL.rank_id
+						U.role_id=UL.id
 					ORDER BY
-						UL.rank_id";
+						UL.id";
 			$result = mysql_query($query) or die ("Unable to verify user because " . mysql_error());
-			$sql = "select * from P4_limit";
+			$sql = "SELECT 
+						value 
+					FROM 
+						P4_setting";
 			$result1 = mysql_query($sql);
 			$row=mysql_fetch_array($result1);
 			?>
@@ -96,7 +99,7 @@
 					<!--code for setting the limit of the page-->
 					<h5 style="color:blue">Set The Page Limit:</h5>	
 					<form action='setLimit.php' method='post'>
-						<input type="text" name="limit" value="<?php echo $row['limit_value'];?>"><br>
+						<input type="text" name="limit" value="<?php echo $row['value'];?>"><br>
 						<input class="btn"type="submit" value="Set Limit">
 					</form>
 				</div>

@@ -8,9 +8,9 @@
 	if(is_numeric($limit_value1))
 	{
 	$query ="UPDATE
-				`P3_limit` 
+				`P4_setting` 
 			SET 
-			`limit_value` = $limit_value1";
+				`value` = $limit_value1";
 	
 	$result = mysql_query($query) or die ("Unable to verify user because " . mysql_error());
 	if(!$result) die("Error updating the limit value");

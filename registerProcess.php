@@ -1,8 +1,7 @@
 <?php
 	session_start();
 	require_once('config.php');
-?>
-<?php
+
 	$page="register";
  
 	//<!-- retreive the comment on the post and insert it into the post table-->
@@ -162,7 +161,7 @@
 		if($fn && $ln && $un && $e1 && $p && $c1 )
 		{
 			$query = "SELECT 
-						username 
+						*
 					FROM 
 						P4_users 
 					WHERE 
@@ -184,7 +183,7 @@
 								 Is_suspended,
 								 Is_verified,
 								 email_setting,
-								 Is_archieved,
+								 Is_archived,
 								 activationkey,
 								 date_registered) 
 							VALUES(' ',
@@ -197,7 +196,7 @@
 								  '0',
 								  '$c1',
 								  ' ',
-								  '$activation',
+								  '$activation',																					
 								  '$date')";
 					
 				$result= mysql_query($query) or die ("Unable to execute the insert query " . mysql_error());
@@ -205,7 +204,7 @@
 				if (mysql_affected_rows() == 1) 
 				{
 					//sending plain mesasge with out html
-					if($c1==1)
+					if($c1==1)					
 					{
 						$to="bbokka@cs.odu.edu";
 						$subject="REGISTRATION CONFIRMATION";

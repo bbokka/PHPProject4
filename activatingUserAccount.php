@@ -1,8 +1,7 @@
 <?php
 	session_start();
 	require_once('config.php');
-?>
-<?php
+
 	$page="active";
 	$ve = "";
 	$vc ="";

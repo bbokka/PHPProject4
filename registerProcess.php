@@ -185,7 +185,8 @@
 								 email_setting,
 								 Is_archived,
 								 activationkey,
-								 date_registered) 
+								 date_registered,
+								 role_id) 
 							VALUES(' ',
 								  '$fn',
 								  '$ln',
@@ -197,8 +198,8 @@
 								  '$c1',
 								  ' ',
 								  '$activation',																					
-								  '$date')";
-					
+								  '$date',
+								  '3')";		
 				$result= mysql_query($query) or die ("Unable to execute the insert query " . mysql_error());
 				
 				if (mysql_affected_rows() == 1) 
@@ -215,8 +216,8 @@
 						$headers.= "From: bbokka@cs.odu.edu\r\n";
 						
 						$message="Thank you for your Registration.";
-						$message.="http://weiglevm.cs.odu.edu/~bbokka/proj4/enterActivationCode.php";
-						$message.="Please enter the six digit code at the link provided." .$activation;
+						$message.="http://weiglevm.cs.odu.edu/~bbokka/devsandbox/PHPProject4/enterActivationCode.php";
+						$message.="\nPlease enter the six digit code at the link provided." .$activation;
 						
 						mail($to, $subject, $message, $headers);
 					}
@@ -233,7 +234,7 @@
 						$headers.= "From: bbokka@cs.odu.edu\r\n";
 						
 						$message="<h3><em><font face='verdana' color='red'>Thank you for your Registration.</font></em></h3>";
-						$message.="<a href=\"http://weiglevm.cs.odu.edu/~bbokka/proj4/enterActivationCode.php\">Click to Activate your account</a><br>";
+						$message.="<a href=\"http://weiglevm.cs.odu.edu/~bbokka/devsandbox/PHPProject4/enterActivationCode.php\">Click to Activate your account</a><br>";
 						$message.="<em><font face='verdana' color='black'>Please enter the six digit code at the link provided.</font></em><br>" .$activation;
 						
 						mail($to, $subject, $message, $headers);

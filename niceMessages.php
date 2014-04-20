@@ -59,7 +59,7 @@
 				echo "<h3>Your account has been activated succesfully </h3>";
 				?>
 			<div class="form-txt">
-				<a href="http://weiglevm.cs.odu.edu/~bbokka/proj4/login.php">Click to LOGIN an enjoy COMMENTING on POSTS
+				<a href="http://weiglevm.cs.odu.edu/~bbokka/devsandbox/PHPProject4/login.php">Click to LOGIN an enjoy COMMENTING on POSTS
 			</div>
 			<?php
 			}
@@ -68,7 +68,7 @@
 				echo "<h3>Thank You !!! Your Password has been reset....!!!</h3>";
 				?>
 				<div class="form-txt">
-				<a href="http://weiglevm.cs.odu.edu/~bbokka/proj4/login.php">Click to LOGIN with your new password
+				<a href="http://weiglevm.cs.odu.edu/~bbokka/devsandbox/PHPProject4/login.php">Click to LOGIN with your new password
 			</div>
 				<?php
 			}
@@ -78,7 +78,7 @@
 				echo "<h3>Thank You !!! A link to reset your Password has been sent to your email  ....!!!</h3>";
 				?>
 				<div class="form-txt">
-				<a href="http://weiglevm.cs.odu.edu/~bbokka/proj4/index.php">click to go back to the HOME page
+				<a href="http://weiglevm.cs.odu.edu//~bbokka/devsandbox/PHPProject4/index.php">click to go back to the HOME page
 			</div>
 				<?php
 			}
@@ -88,7 +88,7 @@
 				echo "<h3>Your email is not registered in this forum ....!!!</h3>";
 				?>
 				<div class="form-txt">
-				<a href="http://weiglevm.cs.odu.edu/~bbokka/proj4/registerUser.php">click to REGISTER IN THE FORUM
+				<a href="http://weiglevm.cs.odu.edu/~bbokka/devsandbox/PHPProject4/registerUser.php">click to REGISTER IN THE FORUM
 			</div>
 				<?php
 			}

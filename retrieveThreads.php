@@ -84,17 +84,23 @@
 						if($_SESSION['rank']!=3)
 						{
 							// Edit Button
-							echo '	<form action="editThread.php" method="post">
+							echo '	
+								<div>
+									<form action="editThread.php" method="post">
 										<input type="hidden" name="thread_id" value="'.$row['thread_id'].'"/>
-										<input class="btn" type="submit" value="Edit" />
-									</form>';
+										<input class="edit_button" type="submit" value="" />
+									</form>
+								</div>';
 						
 							// Delete Button
-							echo '	<form action="deleteThread.php" method="post">
+							echo '	
+								<div>
+									<form action="deleteThread.php" method="post">
 										<input type="hidden" name="thread_id" value="'.$row['thread_id'].'"/>
 										<input type="hidden" name="category_id" value="'.$category.'"/>
-										<input class="btn" type="submit" value="Delete" />
-									</form>';
+										<input class="delete_button" type="submit" value="" />
+									</form>
+								</div>';
 						}
 					}
 					else

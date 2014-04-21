@@ -590,3 +590,10 @@ footer {
 	background:url(../images/bg-body.gif);
 }
 .soc-list li a:hover{opacity:0.7}
+
+.error
+{
+	font-size: 20px;
+	color: maroon;
+	padding: 20px;
+}

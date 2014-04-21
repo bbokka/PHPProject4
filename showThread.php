@@ -46,16 +46,38 @@
 	{
 		width: 20%;
 	}
+	.topicContainer .topicActions input[type="submit"]
+	{
+		width: 36px;
+		height: 36px;
+		border-radius: 50%;
+		background-size:36px 36px;
+		border: none;
+	}
+	.topicContainer .topicActions div
+	{
+		display: inline-block;
+	}
+	.topicContainer .topicActions .edit_button
+	{
+		background: url("images/edit_button.png") no-repeat;
+		background-color: #7F8778;
+	}
+	.topicContainer .topicActions .delete_button
+	{
+		background: url("images/delete_button.png") no-repeat;
+		background-color: #db3222;
+	}
 	.topicContainer .topicActionDescription
 	{
 		width: 20%;
 	}
-	.topicContainer .topicName:hover
+	/* .topicContainer .topicName:hover
 	{
 		-webkit-transform: scale(1.1);
 		-webkit-transition-timing-function: ease-out;
 		-webkit-transition-duration: 250ms;
-	}
+	} */
 </style>
 </head>
 <body>

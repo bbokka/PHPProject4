@@ -2,9 +2,7 @@
 	//<!-- retreive the comment on the post and insert it into the post table-->
 	session_start();
 	require_once('config.php');
-?>
-<?php
-	
+
 	$postEdited=$_POST['commentEdited'];
 	
 	$date  = date("Y/m/d H:i:s");
@@ -17,10 +15,10 @@
 		if (!empty($_POST['commentEdited']))
 		{
 				$query  ="UPDATE
-							P3_posts
+							P4_posts
 						SET 
 							post_content='$postEdited',
-							modify_date='$date'
+							date_last_modified='$date'
 						WHERE 
 						post_id='$postid'";
 				$result = mysql_query($query) or die ("Unable to verify user because " . mysql_error());
@@ -41,7 +39,7 @@
 	{
 		?>
 			<script type="text/javascript">
-				alert("post has been deleted you cannoy edit");
+				alert("something went wrong you cannot edit the post");
 				history.back();
 			</script>
 		<?php

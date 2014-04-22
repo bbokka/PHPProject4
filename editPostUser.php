@@ -64,10 +64,24 @@
 						$_SESSION['$del_flag']=$del_flag;
 						
 					?>
-					<div class="btns" > 
-						<form action="insertEditedPost.php"  method="post">
-						<textarea autofocus rows ="6" cols="56" name="commentEdited" ><? echo $row['post_content']; ?></textarea><br>
-						<input class="btn" align="center" type="submit" value="EditComment">
+					<div class="btns"> 
+						<style>
+							.post_textarea
+							{
+								-webkit-border-radius: 10px;
+								-moz-border-radius: 10px;
+								border-radius: 10px;
+								padding: 10px;
+								outline: 0;
+								width: 60%;
+								height: 50px;
+							}
+						</style>
+						<form action="insertEditedPost.php" name="form" method="post">
+							<textarea class="post_textarea" style="resize: none;" autofocus name="commentEdited" ><? echo $row['post_content']; ?>
+							</textarea>
+							</br>
+							<input class="btn" type="submit" value="EditComment" >
 						</form>
 					</div>
 					<?php

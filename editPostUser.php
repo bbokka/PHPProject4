@@ -49,9 +49,9 @@
 					
 					$retreive="SELECT 
 									post_content,
-									del_flag
+									Is_archived
 							   FROM
-									P3_posts 
+									P4_posts 
 							   WHERE
 									post_id ='$post_id'";
 					$result = mysql_query($retreive) or die ("Unable to verify user because " . mysql_error());
@@ -60,7 +60,7 @@
 					if($count==1)
 					{
 						$row = mysql_fetch_assoc($result);
-						$del_flag=$row['del_flag'];
+						$del_flag=$row['Is_archived'];
 						$_SESSION['$del_flag']=$del_flag;
 						
 					?>

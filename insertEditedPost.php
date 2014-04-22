@@ -10,8 +10,8 @@
 	$date  = date("Y/m/d H:i:s");
 	$postid= $_SESSION['post_id'];
 	
-	//echo "gfhgdgg".$_SESSION['$del_flag'];
-	
+	//echo "".$_SESSION['$del_flag'];
+	//just to make sure that the user has been deleted by the admin and the same time the user is trying to post the comment.
 	if($_SESSION['$del_flag']==0)
 	{
 		if (!empty($_POST['commentEdited']))
@@ -41,7 +41,7 @@
 	{
 		?>
 			<script type="text/javascript">
-				alert("post cannot be edited");
+				alert("post has been deleted you cannoy edit");
 				history.back();
 			</script>
 		<?php

@@ -7,6 +7,7 @@
 	
 	$date  = date("Y/m/d H:i:s");
 	$postid= $_SESSION['post_id'];
+	$modified_by = $_SESSION['login_id'] ;
 	
 	//echo "".$_SESSION['$del_flag'];
 	//just to make sure that the user has been deleted by the admin and the same time the user is trying to post the comment.
@@ -18,7 +19,8 @@
 							P4_posts
 						SET 
 							post_content='$postEdited',
-							date_last_modified='$date'
+							date_last_modified='$date',
+							last_modified_by = '$modified_by'
 						WHERE 
 						post_id='$postid'";
 				$result = mysql_query($query) or die ("Unable to verify user because " . mysql_error());

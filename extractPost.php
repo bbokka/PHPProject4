@@ -218,26 +218,43 @@
 		//select the data from the data base basing on the limit value
 		$retreive="
 					SELECT 
-						P.post_id,
-						P.post_content,
-						UR.name AS role_name,
-						U.role_id,
-						P.date_created,
-						U.fname,
-						P.date_last_modified,
-						P.is_archived,
-						U.id AS user_id
-					FROM 
-						P4_posts P,
-						P4_users U,
-						P4_roles UR
-					WHERE 
-						P.thread_id = $thread
-						AND U.role_id = UR.id
-						AND	U.id = P.posted_by
+						A.post_content, 
+						A.role_name, 
+						A.role_id, 
+						A.date_created, 
+						A.is_archived, 
+						A.fname, 
+						A.user_id, 
+						A.date_last_modified, 
+						A.modified_by, 
+						B.fname AS Modified_post_by 
+					FROM   
+						(SELECT P.post_id, 
+								P.post_content, 
+								UR.name aS role_name, 
+								U.role_id, 
+								P.date_created, 
+								U.fname, 
+								U.username, 
+								P.date_last_modified, 
+								P.is_archived, 
+								U.id AS user_id, 
+								P.last_modified_by AS modified_by 
+						FROM   
+							P4_posts P, 
+							P4_users U, 
+							P4_roles UR 
+						WHERE  
+								P.thread_id = 8 
+								AND U.role_id = UR.id 
+								AND U.id = P.posted_by) 
+						A, 
+						P4_users B 
+					WHERE  
+						A.modified_by = B.id
 					ORDER BY
-						P.is_archived, 
-						P.date_created 
+						A.is_archived, 
+						A.date_created 
 					ASC $limit";
 		$result1 = mysql_query($retreive) or die ("Unable to verify user because " . mysql_error());
 		$paginationCtrls = '';
@@ -277,7 +294,12 @@
 		}
 		$list = '';
 		
-		$retrieveThreadNameQuery = "select thread_name from P4_threads where thread_id = $thread";
+		$retrieveThreadNameQuery = "SELECT
+										thread_name 
+									FROM
+										P4_threads 
+									WHERE 
+										thread_id = $thread";
 		$ThreadName_res = mysql_query($retrieveThreadNameQuery) or die(mysql_error());
 		while ($ThreadName_row = mysql_fetch_object($ThreadName_res)) 
 		{
@@ -333,7 +355,7 @@
 						</div>
 						<div class="post_Audits">
 							<span> Created: '.$row['date_created'].'</span>
-							<span> Last Modified: '.$row['date_last_modified'].'</span>
+							<span> Last Modified: '.$row['date_last_modified'].'<br> by '.$row['Modified_post_by'].'</span>
 						</div>
 					</div>
 				</div>
@@ -358,10 +380,10 @@
 							$show_delete_button = 1;
 						}
 						
-						if(!$show_edit_button && !$show_edit_button)
+						/*if(!$show_edit_button && !$show_edit_button)
 						{
 							echo 'No actions available';
-						}
+						}*/
 						
 						//dispalying the edit button for the respective logged in user
 						if($show_edit_button)

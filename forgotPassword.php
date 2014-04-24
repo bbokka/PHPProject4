@@ -24,6 +24,7 @@
 	}
 	
 	$query= "SELECT
+				email,
 				email_setting 
 			FROM
 				P4_users
@@ -39,7 +40,7 @@
 		$choice=$row['email_setting'];
 		if($choice==1)
 		{
-			$to="bbokka@cs.odu.edu";
+			$to=$row['email'];
 			$subject="PASSWORD RESET CONFIRMATION";
 						
 			$headers = "MIME-Version: 1.0\r\n";	
@@ -53,7 +54,7 @@
 		}
 		else if($choice ==2)
 		{
-			$to="bbokka@cs.odu.edu";
+			$to=$row['email'];
 			$subject="PASSWORD RESET CONFIRMATION";
 							
 			$headers = "MIME-Version: 1.0\r\n";	

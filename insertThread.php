@@ -25,7 +25,7 @@
 							`last_modified_by`, 
 							`category_id`, 
 							`is_freezed`, 
-							`is-archived`) 
+							`is_archived`) 
 						VALUES 
 							('$thread_name', 
 							'$date', 

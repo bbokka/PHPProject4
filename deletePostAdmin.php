@@ -15,7 +15,7 @@
 	
 	$postid   = $_REQUEST['post_id'];
 	$del_flag = 1;
-	$deleted_by = $_SESSION['login_id'] ;
+	$modified_by = $_SESSION['login_id'] ;
 	
 	$query  = "
 				UPDATE
@@ -24,7 +24,7 @@
 					post_content = '$postEdited',
 					date_last_modified = '$date',
 					Is_archived = '$del_flag',
-					last_modified_by = '$deleted_by'
+					last_modified_by = '$modified_by'
 				WHERE 
 					post_id='$postid'";
 	$result = mysql_query($query) or die ("Unable to verify user because " . mysql_error());

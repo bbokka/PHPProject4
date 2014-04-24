@@ -127,6 +127,7 @@
 							P4_roles UL 
 						WHERE 
 							U.role_id = UL.id
+							AND U.Is_archived=0
 						ORDER BY
 							UL.id ASC $limit";
 			$result2 = mysql_query($retreive) or die ("Unable to verify user because " . mysql_error());

@@ -71,17 +71,17 @@
 		<?php
 			require_once("config.php");
 			$query ="SELECT 
-						UL.rank_id ,
-						U.username, 
-						UL.title, 
-						U.login_id 
-					FROM 
-						P3_user_login U,
-						P3_user_level UL 
-					WHERE 
-						U.rank=UL.rank_id 
-					ORDER BY 
-						UL.rank_id";
+							UL.id ,
+							UL.Name, 
+							U.username,
+							U.id 
+						FROM 
+							P4_users U,
+							P4_roles UL 
+						WHERE 
+							U.role_id=UL.id 
+						ORDER BY
+							UL.id";
 			$result = mysql_query($query) or die ("Unable to verify user because " . mysql_error());
 			?>
 			<? 
@@ -98,7 +98,9 @@
 							$query1 = "SELECT 
 											* 
 										FROM 
-											P3_user_login";
+											P4_users
+										WHERE
+											Is_archived=0";
 							$result1 = mysql_query($query1) or die ("Unable to verify user because " . mysql_error());
 										
 							echo '<select name="user">'; // Open your drop down box
@@ -108,7 +110,7 @@
 							{
 								if($row1['fname']!=$_SESSION['name'] && $row1['rank']!=4 )
 								{
-									echo '<option value="'.$row1['login_id'].'">'.$row1['username'].'</option>';
+									echo '<option value="'.$row1['id'].'">'.$row1['fname'].'</option>';
 								}
 							}
 							echo '</select>';

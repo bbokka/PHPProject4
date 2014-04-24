@@ -227,6 +227,7 @@
 						A.user_id, 
 						A.date_last_modified, 
 						A.modified_by, 
+						A.post_id,
 						B.fname AS Modified_post_by 
 					FROM   
 						(SELECT P.post_id, 
@@ -245,7 +246,7 @@
 							P4_users U, 
 							P4_roles UR 
 						WHERE  
-								P.thread_id = 8 
+								P.thread_id = $thread 
 								AND U.role_id = UR.id 
 								AND U.id = P.posted_by) 
 						A, 

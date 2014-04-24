@@ -2,8 +2,7 @@
 
 	session_start();
 	require_once('config.php');
-?>
-<?php
+
 	$del_value=$_REQUEST['category'];
 	$query ="DELETE FROM 
 				P4_categories 

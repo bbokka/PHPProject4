@@ -46,7 +46,6 @@
 					require_once("config.php");
 					$post_id=$_POST['post_id'];
 					$_SESSION['post_id']=$post_id;
-					
 					$retreive="SELECT 
 									post_content,
 									Is_archived
@@ -55,7 +54,6 @@
 							   WHERE
 									post_id ='$post_id'";
 					$result = mysql_query($retreive) or die ("Unable to verify user because " . mysql_error());
-					
 					$count = mysql_num_rows($result);
 					if($count==1)
 					{

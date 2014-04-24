@@ -15,7 +15,12 @@
 		}
 		else 
 		{
-			$query = "select * from P4_threads where category_id = '$category'";
+			$query = "	SELECT 
+							* 
+						FROM
+							P4_threads 
+						WHERE
+							category_id = '$category'";
 			$result = mysql_query($query) or die ("Unable to verify user because " . mysql_error());
 			$num_rows = mysql_fetch_array($result);
 			if($num_rows == 0)
@@ -40,7 +45,7 @@
 					T.thread_name,
 					T.creation_date,
 					U.fname,
-					T.`is-archived`,
+					T.`is_archived`,
 					T.date_last_modified
 				FROM 
 					P4_threads T,
@@ -49,7 +54,7 @@
 					T.category_id = '$category' 
 					AND T.posted_by = U.id 
 				ORDER BY 
-					T.`is-archived`";
+					T.`is_archived`";
 		
 		$result = mysql_query($query) or die ("Unable to verify user because " . mysql_error());
 		while($row = mysql_fetch_assoc($result))
@@ -79,7 +84,7 @@
 			echo '	</div>
 					<div class="topicActions">
 					';
-					if($row['is-archived'] == 0)
+					if($row['is_archived'] == 0)
 					{
 						if($_SESSION['rank']!=3)
 						{

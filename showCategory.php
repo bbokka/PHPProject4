@@ -16,6 +16,16 @@
 <script src="js/superfish.js"></script>
 <script src="js/forms.js"></script>
 <style>
+	.category_navigation
+	{
+		background: #92C7C7;
+		width: 100%;
+		padding: 10px;
+		
+		-webkit-border-radius: 10px;
+		-moz-border-radius: 10px;
+		border-radius: 10px;
+	}
 	.category_div
 	{
 		background: white;
@@ -51,7 +61,7 @@
   <div class="line-top"></div>
   <div class="main">
     <div class="row-top">
-      <h3><em><font face="verdana" color="red"> Art of Cooking</font></em></h3>
+      <h3><em><font face="verdana" color="orangered"> Art of Cooking</font></em></h3>
 	  <img alt="" src="images\cooking-college.jpg" width="170" height="100" >
       <nav>
        <ul class="sf-menu">
@@ -67,7 +77,7 @@
 		session_start();
 		if(isset($_SESSION['login_id']) && ($_SESSION['login_id'] != 0))
 		{
-			echo '<h5 style="color: orangered;" align="right"> You are logged in as: '. $_SESSION['name'] .' </h5>';
+			echo '<h5 style="color: green;" align="right"> You are logged in as: '. $_SESSION['name'] .' </h5>';
 		}
 		else
 		{
@@ -79,14 +89,19 @@
 <section id="content">
 	<div sytle="margin : 0px auto">
 		<div class="main">
-		<h3  style="color:blue!important"> Forum Category: </h3>
-		<div class="category_div" style="background: #123123; color: white">
+		<div class="category_navigation">
+			<h3 style= "color: white"> Category: </h3>
+		</div>
+		
+		<div class="category_div" style="background: #FBB917; color: white">
+			
 			<div class="category_name">  
-				Category Name
+				<h3 style= "color: white">Category Name</h3>
 			</div>
-			<div class="category_description"> 
-				Description
+			<div class="category_description">
+				<h3 style= "color: white">Description </h3>
 			</div>
+			
 		</div>
 		<?php
 			include 'retrieveCategories.php';
@@ -95,7 +110,7 @@
 </section>
 <footer>
   <div class="main">
-    <div class="policy"><a style="color:green!important" href="#">Copyright @ 2014 Art of cooking powered by Babitha Bokka & Vaidehi Putta </div>
+    <div class="policy"> <h5 style="color:green!important" >Copyright @ 2014 Art of cooking powered by Babitha Bokka & Vaidehi Putta </h5></div>
     <div class="clear"></div>
   </div>
 </footer>

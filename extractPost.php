@@ -18,6 +18,29 @@
 <script src="js/superfish.js"></script>
 <script src="js/forms.js"></script>
 <style>
+	.category_navigation
+	{
+		background: #92C7C7;
+		width: 100%;
+		padding: 10px;
+		margin: 2px auto;
+		
+		-webkit-border-radius: 10px;
+		-moz-border-radius: 10px;
+		border-radius: 10px;
+	}
+	.recent_post
+	{
+		background: #92C7C7;
+		width: 100%;
+		padding: 10px;
+		background: #FBB917;
+		color: white;
+		
+		-webkit-border-radius: 10px;
+		-moz-border-radius: 10px;
+		border-radius: 10px;
+	}
 	.post_container
 	{
 		background: white;
@@ -295,6 +318,19 @@
 		}
 		$list = '';
 		
+		$retrieveCategoryNameQuery = "SELECT
+										cat_name 
+									FROM
+										P4_categories 
+									WHERE 
+										id = $cate 
+										AND Is_archived=0";
+		$CategoryName_res = mysql_query($retrieveCategoryNameQuery) or die(mysql_error());
+		while ($CategoryName_row = mysql_fetch_object($CategoryName_res)) 
+		{
+			$CategoryName=$CategoryName_row->cat_name;
+		}
+
 		$retrieveThreadNameQuery = "SELECT
 										thread_name 
 									FROM
@@ -304,8 +340,14 @@
 		$ThreadName_res = mysql_query($retrieveThreadNameQuery) or die(mysql_error());
 		while ($ThreadName_row = mysql_fetch_object($ThreadName_res)) 
 		{
-			echo '<p style="font-size: 18px; color: maroon; padding: 20px;"> Topic Name: '.$ThreadName_row->thread_name.'</p>';
+			echo '<div class="category_navigation" >';
+			echo '<h3 style="color:white">Category>>'.$CategoryName.'>>'.$ThreadName_row->thread_name.'</h3>';
+			echo '</div>';
+			
 		}
+		echo '<div class="recent_post" >';
+		echo '<h3 style="color:white">Recent Posts</h3>';
+		echo '</div>';
 		
 		//displaying all the fetched data from the data base
 		while($row = mysql_fetch_assoc($result1))
@@ -413,6 +455,7 @@
 					}
 			echo '</div>
 			</div>
+			
 		';
 			$_SESSION['del_flag'] = $row['is_archived'];
 		}//end while

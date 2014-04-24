@@ -1,5 +1,6 @@
 <?php
 	session_start();
+	require_once('config.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -16,6 +17,16 @@
 <script src="js/superfish.js"></script>
 <script src="js/forms.js"></script>
 <style>
+	.category_navigation
+	{
+		background: #92C7C7;
+		width: 100%;
+		padding: 10px;
+		
+		-webkit-border-radius: 10px;
+		-moz-border-radius: 10px;
+		border-radius: 10px;
+	}
 	.topicContainer div
 	{
 		display: inline-block;
@@ -61,12 +72,12 @@
 	.topicContainer .topicActions .edit_button
 	{
 		background: url("images/edit_button.png") no-repeat;
-		background-color: #7F8778;
+		background-color: #92C7C7;
 	}
 	.topicContainer .topicActions .delete_button
 	{
 		background: url("images/delete_button.png") no-repeat;
-		background-color: #db3222;
+		background-color: #FBB917;
 	}
 	.topicContainer .topicActionDescription
 	{
@@ -97,7 +108,6 @@
       </nav>
       <div class="clear"></div>
 		<?php
-			session_start();
 			if(isset($_SESSION['login_id']) && ($_SESSION['login_id'] != 0))
 			{
 				echo '<h5 style="color: orangered;" align="right"> You are logged in as:'. $_SESSION['name'] .' </h5>';
@@ -113,7 +123,25 @@
 <section id="content">
 <div sytle="margin : 0px auto">
 	<div class="main">
-		<div class="topicContainer" style="background: #123123; color: white">
+		<div class="category_navigation">
+			<?php
+				$category = $_REQUEST['category_id'];
+				$retrieveCategoryNameQuery = "SELECT
+												cat_name 
+											FROM
+												P4_categories 
+											WHERE 
+												id = $category 
+												AND Is_archived=0";
+				$CategoryName_res = mysql_query($retrieveCategoryNameQuery) or die(mysql_error());
+				while ($CategoryName_row = mysql_fetch_object($CategoryName_res)) 
+				{
+					echo '<h3  style="color:white!important">Category>>'.$CategoryName_row->cat_name.'</h3>';
+				}
+				?>
+		</div>
+		<div class="topicContainer" style="background: #FBB917; color: white">
+			<h3 style="color:white!important">
 			<div class="topicName">
 				Name
 			</div>
@@ -126,6 +154,7 @@
 			<div class="topicActionDescription">
 				Audits
 			</div>
+			</h3>
 		</div>
 		<?php
 			include 'retrieveThreads.php'

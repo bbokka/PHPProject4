@@ -62,9 +62,11 @@
 			echo '
 				<div class="topicContainer">
 					<div class="topicName">
+					<h5 style="color: green;">
 						<a href="extractPost.php?thread_id='.$row['thread_id'].'"> 
 							'.$row['thread_name'].' 
 						</a>
+					</h5>
 					</div>
 					<div class="topicReplies">
 					';
@@ -79,7 +81,9 @@
 									thread_id = $thread_id";
 						$result2 = mysql_query($query1) or die ("Unable to verify user because " . mysql_error());
 						$row2 = mysql_fetch_assoc($result2);
+						echo '<h5 style="color: blue;">';
 						echo $row2['no_of_replies'];
+						echo '</h5>';
 					
 			echo '	</div>
 					<div class="topicActions">
@@ -110,13 +114,15 @@
 					}
 					else
 					{
+						echo '<h5 style="color: blue;">';
 						echo 'Topic has been deleted';
+						echo '</h5>';
 					}
 			echo '	</div>
 					<div class="topicActionDescription">
-						<h5> Created: '.$row['creation_date'].'</h5>
-						<h5> Created By: '.$row['fname'].'</h5>
-						<h5> Last Modified: '.$row['date_last_modified'].'</h5>
+						<h5 style="color: blue;"> Created: '.$row['creation_date'].'
+						 Created By: '.$row['fname'].'
+						Last Modified: '.$row['date_last_modified'].'</h5>
 					</div>
 				</div>';
 		}	

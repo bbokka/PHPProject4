@@ -1,8 +1,7 @@
 <?php
 	session_start();
 	require_once("config.php");
-?>
-<?php
+
 	//retrieving the categories from the database
 	$query="	SELECT 
 					id,
@@ -15,11 +14,15 @@
 	{
 		echo '
 			<div class="category_div">
-				<div class="category_name">  
+				<div class="category_name"> 
+					<h5>
 					<a style="color:green!important" href="showThread.php?category_id='.$row['id'].'">'. $row['cat_name'] .'</a>
+					</h5>
 				</div>
 				<div class="category_description"> 
+					<h5 style="color: blue;">
 					'.$row['cat_description'].'
+					</h5>
 				</div>
 			</div>';
 		

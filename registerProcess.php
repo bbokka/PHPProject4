@@ -207,7 +207,7 @@
 					//sending plain mesasge with out html
 					if($c1==1)					
 					{
-						$to="bbokka@cs.odu.edu";
+						$to=$e1;
 						$subject="REGISTRATION CONFIRMATION";
 						
 						$headers = "MIME-Version: 1.0\r\n";	
@@ -225,7 +225,7 @@
 					else
 					{	
 						//should update the $e1 value if everything works
-						$to="bbokka@cs.odu.edu";
+						$to=$e1;
 						$subject="REGISTRATION CONFIRMATION";
 						
 						$headers = "MIME-Version: 1.0\r\n";	

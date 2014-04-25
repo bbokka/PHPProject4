@@ -15,13 +15,13 @@
 				id=$del_eval";
 	$result1= mysql_query($query1) or die ("Unable to verify user because " . mysql_error());
 	$row1 = mysql_fetch_assoc($result1);
-	//$_SESSION['email'] = $row1['email'];
+	$_SESSION['email'] = $row1['email'];
 	
 	//$to=$_SESSION['email'];
 	if($row1['email_setting']==1)
 	{
 		//plain email//
-		$to="bbokka@cs.odu.edu";
+		$to=$_SESSION['email'];
 		$subject="Deleting Your User Account";
 					
 		$headers = "MIME-Version: 1.0\r\n";	
@@ -35,7 +35,7 @@
 	else if($row1['email_setting']==2)
 	{
 		//html email//
-		$to="bbokka@cs.odu.edu";
+		$to=$_SESSION['email'];
 		$subject="Deleting Your User Account";
 						
 		$headers = "MIME-Version: 1.0\r\n";	

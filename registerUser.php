@@ -25,7 +25,7 @@
 			  <nav>
 				<ul class="sf-menu">
 					<?php 
-						$_POST['current'] = 5;
+						$_POST['current'] = 3;
 						include 'navBar.php'; 
 					?>
 				</ul>

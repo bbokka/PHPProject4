@@ -126,19 +126,22 @@
 		<div class="category_navigation">
 			<?php
 				$category = $_REQUEST['category_id'];
-				$retrieveCategoryNameQuery = "SELECT
+				$retrieveCategoryNameQuery = "
+											SELECT
 												cat_name 
 											FROM
 												P4_categories 
 											WHERE 
-												id = $category 
-												AND Is_archived=0";
+												id = ".$category."
+												AND Is_archived=0
+											";
+				print $retrieveCategoryNameQuery;
 				$CategoryName_res = mysql_query($retrieveCategoryNameQuery) or die(mysql_error());
 				while ($CategoryName_row = mysql_fetch_object($CategoryName_res)) 
 				{
 					echo '<h3  style="color:white!important">Category>>'.$CategoryName_row->cat_name.'</h3>';
 				}
-				?>
+			?>
 		</div>
 		<div class="topicContainer" style="background: #FBB917; color: white">
 			<h3 style="color:white!important">

@@ -1,5 +1,6 @@
 <?php
 	session_start();
+	require_once('config.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -83,20 +84,25 @@
 			<div class="profile_div">
 				<div class="coll-1">
 					<?php
-						$image_query="
-									SELECT 
-										user_profile 
-									FROM
-										P4_users 
+						$query="
+								SELECT 
+									user_profile 
+								FROM 
+									P4_users 
+								WHERE 
+									id=".$_SESSION['login_id'].";
 									";
-						$result = mysql_query($image_query) or die ("Unable to verify user because " . mysql_error());
-						$row = mysql_fetch_array($result);
-						while($row==1)
+									
+						$result = mysql_query($query) or die ("Unable to execute query and reterive user profile " . mysql_error());
+						while($row = mysql_fetch_assoc($result))
 						{
-							//echo "<img alt="" src='.$row[''].' width='200' height='200' ></img>";
-							echo $row['user_profile'];
-							//<img alt="" src=".." width="200" height="200" ></img>
+							echo '<img alt="" src="'.$row['user_profile'].'" width="200" height="200" ></img>';
 						}
+						echo '
+							<form action="upload_image.php" method="post" enctype="multipart/form-data">
+							<input type="file" name="file" id="file"><br>
+							<input type="submit" name="submit" value="Upload">
+							</form>';
 					?>
 					
 				</div>

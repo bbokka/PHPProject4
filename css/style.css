@@ -410,8 +410,16 @@ background:#fff;
 	-webkit-box-shadow:0 0 3px #c5c2a9;
 }
 
-.coll-1{float:left;width:200px;}
-.coll-2{float:left}
+.coll-1
+{
+	float:left;
+	width:200px; 
+}
+.coll-2
+{
+	float:left
+	padding :
+}
 
 
 .box-contact .btn{margin-top:2px}

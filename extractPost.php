@@ -341,8 +341,12 @@
 		while ($ThreadName_row = mysql_fetch_object($ThreadName_res)) 
 		{
 			echo '<div class="category_navigation" >';
-			echo '<h3 style="color:white">Category>>'.$CategoryName.'>>'.$ThreadName_row->thread_name.'</h3>';
-			echo '</div>';
+			echo '<h3><a href="showCategory.php" style="color:white">Category</a>';
+			echo ">>";
+			echo '<a href="showCategory.php" style="color:white">'.$CategoryName.'</a>';
+			echo ">>";
+			echo '<a href="showThread.php" style="color:white">'.$ThreadName_row->thread_name.' </a>';
+			echo '</h3></div>';
 			
 		}
 		echo '<div class="recent_post" >';

@@ -137,7 +137,21 @@
 	<?php
 	
 		}
-		?>
+	?>
+		
+	
+	<?php
+		$cp= mysql_real_escape_string($_POST["captcha"]);
+		if(isset($cp)&&$cp!=""&&$_SESSION["code"]==$cp)
+		{
+			//echo " hey captcha worked";
+		}
+		else
+		{
+		die("Wrong Code Entered");
+		}
+	?>	
+
 	<?php
 	   //validate the radio button
 		if($_POST['choice']==1 || $_POST['choice']==2)

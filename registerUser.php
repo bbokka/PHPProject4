@@ -86,12 +86,26 @@
 					&nbsp;
 				  </h3>
 				  </div>
-				    <h3>
+				  <div>
+					<h3>
 					<div class="form-txt">Re-enter Password:</div>
 					<input type ="password" name="password2" size="25" maxlength="15" placeholder="Password">
 					<div class="clear"></div>
 					&nbsp;
-				    </h3>
+					</h3>
+				  </div>
+				  
+				  <div>
+					<h3>
+						Please Enter Image Text
+						<img src="captcha.php" /><br>
+						<input name="captcha" type="text">
+						<div class="clear"></div>
+						&nbsp;
+					</h3>
+				  </div>
+				  
+
 					<div>
 					<h4>
 					<div class="form-txt">Type of Email you want to receive:</div>

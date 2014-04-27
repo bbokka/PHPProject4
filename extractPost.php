@@ -90,8 +90,8 @@
 	.post_content
 	{
 		min-height: 100px;
-		/* border-bottom: 1px solid #BADA55;  */
-		background: lightgray;
+		/*border-top: 1px solid red;  */
+		background: #92C7C7;
 		border-radius: 10px;
 		padding: 2px;
 	}
@@ -251,7 +251,8 @@
 						A.date_last_modified, 
 						A.modified_by, 
 						A.post_id,
-						B.fname AS Modified_post_by 
+						B.fname AS Modified_post_by,
+						B.user_profile
 					FROM   
 						(SELECT P.post_id, 
 								P.post_content, 
@@ -346,7 +347,8 @@
 			echo '<a href="showCategory.php" style="color:white">'.$CategoryName.'</a>';
 			echo ">>";
 			echo '<a href="showThread.php" style="color:white">'.$ThreadName_row->thread_name.' </a>';
-			echo '</h3></div>';
+			echo '</h3>
+				 </div>';
 			
 		}
 		echo '<div class="recent_post" >';
@@ -360,6 +362,7 @@
 			<div class="post_container">
 			<div class="non_actions_part">
 				<div class="post_owner_details">
+					<span> <img alt="" src="images/'.$row['user_profile'].'" width="140" height="140" ></img> </span>
 					<span> '.$row['fname'].' </span>
 					<span> '.$row['role_name'].'</span>
 					';

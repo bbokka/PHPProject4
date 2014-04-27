@@ -83,25 +83,16 @@
 					ORDER BY 
 						UL.id";
 			$result = mysql_query($query) or die ("Unable to verify user because " . mysql_error());
-		?>
-		
-		<? 
 			include "FeaturesBar.php"; 
 		?>
-		<!--</form>
-		<h5 style="color:blue">Delete a Post:</h5>	
-		<form action="deletePost.php" name="form" method="GET">
-		<input class="btn" type="submit" value="Delete Post">	
-		</form>-->
-		
-		</div><h5>	
+		</div>
 	</div>
-	
-
 </section>
 <footer>
   <div class="main">
-			<div class="policy"><a style="color:green!important" href="#">Copyright @ 2014 Art of cooking powered by Babitha Bokka & Vaidehi Putta </div>
+			<div class="policy">
+				<a style="color:green!important" href="#">Copyright @ 2014 Art of cooking powered by Babitha Bokka & Vaidehi Putta </a>
+			</div>
     <div class="clear"></div>
   </div>
 </footer>

@@ -96,7 +96,7 @@
 						$result = mysql_query($query) or die ("Unable to execute query and reterive user profile " . mysql_error());
 						while($row = mysql_fetch_assoc($result))
 						{
-							echo '<img alt="" src="'.$row['user_profile'].'" width="200" height="200" ></img>';
+							echo '<img alt="" src="images/'.$row['user_profile'].'" width="140" height="140" ></img> ';
 						}
 						echo '
 							<form action="upload_image.php" method="post" enctype="multipart/form-data">
@@ -107,7 +107,7 @@
 					
 				</div>
 				<div class="coll-2">
-				dfgdfsgsdfgdsfgsd
+				
 				</div>
 			</div>
 		</section>

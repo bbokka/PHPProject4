@@ -135,7 +135,7 @@
 												id = ".$category."
 												AND Is_archived=0
 											";
-				print $retrieveCategoryNameQuery;
+				//print $retrieveCategoryNameQuery;
 				$CategoryName_res = mysql_query($retrieveCategoryNameQuery) or die(mysql_error());
 				while ($CategoryName_row = mysql_fetch_object($CategoryName_res)) 
 				{

@@ -31,7 +31,7 @@
 			}
 			.profile_div
 			{
-				background :white;
+				background: white;
 				width: 100%;
 				max-width:1024px;
 				min-height:500px;
@@ -46,12 +46,11 @@
 			
 			.coll-1
 			{
-				background :#92C7C7; 
 				float:left;
 				width:20%; 
 				display: block;
 				padding: 10px;
-				border:1px solid red;
+				background: #92C7C7;
 				
 				-webkit-border-radius: 10px;
 				-moz-border-radius: 10px;
@@ -80,20 +79,13 @@
 				text-transform:uppercase;
 				display:block;
 				min-height: 30px;
-				border:1px solid red;
+				border-bottom: 1px solid red;
 				padding: 2px;
+				background:#92C7C7;
 				
-				
-				-webkit-box-shadow: 0 0 5px 2px #fff;
-				-moz-box-shadow: 0 0 5px 2px #fff;
-				box-shadow: 0 0 5px 2px #fff;
-				background:white;
-				-moz-border-radius: 5px;
-				-webkit-border-radius: 5px;
-				-khtml-border-radius: 5px;
-				border-radius: 5px;
-				
-				
+				-webkit-border-radius: 10px;
+				-moz-border-radius: 10px;
+				border-radius: 10px;
 			}
 			a.feature
 			{
@@ -106,7 +98,7 @@
 				color: blue;
 				font-weight: 50;
 				text-align: center;
-				border:1px solid red;
+				
 				
 				-webkit-box-shadow: 0 0 5px 2px #fff;
 				-moz-box-shadow: 0 0 5px 2px #fff;
@@ -122,7 +114,27 @@
 			{
 				background: red;
 			}
+			
+			div.Form_Box
+			{
+				width:95%; 
+				margin-left: auto;
+				margin-right: auto;
+				margin-bottom: 10px;
+				border:1px solid red;
+				max-width:1024px; 
+				min-height:50px; 
+				padding:10px;
+				-webkit-border-radius: 10px;
+				-moz-border-radius: 10px;
 				
+				-webkit-box-shadow: 0 0 5px 2px #888;
+				-moz-box-shadow: 0 0 5px 2px #888;
+				box-shadow: 0 0 5px 2px #888;
+				
+				border-radius: 10px; 
+				background-color:#92C7C7;
+			}
 			div.features_div
 			{
 				
@@ -132,7 +144,6 @@
 				text-align: center;
 				margin-bottom: 2%;
 			}
-
 			
 			
 			</style>
@@ -176,14 +187,13 @@
 					<div class="user_image">
 					
 					<?php
-						$user_id = $_GET['useraction'];
 						$query="
 								SELECT 
 									user_profile 
 								FROM 
 									P4_users 
 								WHERE 
-									id=".$user_id.";
+									id=".$_SESSION['login_id'].";
 									";
 									
 						$result = mysql_query($query) or die ("Unable to execute query and reterive user profile " . mysql_error());
@@ -191,16 +201,11 @@
 						{
 							echo '<img alt="" src="images/'.$row['user_profile'].'" width="140" height="140" ></img> ';
 						}
-						if($user_id==$_SESSION['login_id'] )
-						{
 						echo '
-						
 							<form action="upload_image.php" method="post" enctype="multipart/form-data">
-							<input type="hidden" name="userprofile" value="<?php echo '.$user_id.'?> " />
 							<input type="file" name="file" id="file"><br>
 							<input type="submit" name="submit" value="Upload">
 							</form>';
-						}
 					?>
 					</div>
 					<br>
@@ -224,7 +229,7 @@
 													GROUP BY username
 												)
 												A 
-											WHERE A.id=".$user_id ."";
+											WHERE A.id=".$_SESSION['login_id'] ."";
 							$user_stats_query_result= mysql_query($user_stats_query) or die ("Unable to verify user because " . mysql_error());
 							$stats_row = mysql_fetch_assoc($user_stats_query_result);
 							
@@ -252,30 +257,45 @@
 												P4_users U,
 												P4_roles UR
 											WHERE 
-												U.id = ".$user_id ."
+												U.id = ".$_SESSION['login_id'] ."
 												AND U.role_id = UR.id";
 						$user_name_query_result = mysql_query($user_name_query) or die ("Unable to verify user because " . mysql_error());
 						$user_name_row = mysql_fetch_assoc($user_name_query_result);
 						echo '	<h3 style="color:orangered">'.$user_name_row['fname']. '&nbsp&nbsp'.$user_name_row['lname'].'</h3>';
 						echo'	<h5 style="color:green">'.$user_name_row['Name'].'</h5> 
 								</div>';
-						$page1="posts";
-						$page2="activities";
-						$page3="information";
 						
+						$page=$_REQUEST['action'];
+						if($page=="posts")
+						{
+							$_POST['selected'] == 1;
+						}
+						else if($page=="activities")
+						{
+							$_POST['selected'] == 2;
+						}
+						else if($page=="information")
+						{
+							$_POST['selected'] = 3;
+						}		
 						echo '	<div class="features_div">';
 									echo '<a class="feature'; 
 										if($_POST['selected'] == 1) echo ' selected';
-										echo'" href="userActivities.php?action='.$page1.'"> Postings </a>';
+										echo'" href="userActivities.php"> Postings </a>';
 									
 									echo '<a class="feature'; 
 										if($_POST['selected'] == 2) echo ' selected';
-										echo'" href="userActivities.php?action='.$page2.'"> Recent Activity </a>';
+										echo'" href="userActivities.php"> Recent Activity </a>';
 									echo '<a class="feature'; 
 										if($_POST['selected'] == 3) echo ' selected';
-										echo'" href="userActivities.php?action='.$page3.'"> Information</a>';
+										echo'" href="userActivities.php"> Information</a>';
 						echo '	</div>
 								';
+						echo '<div class="Form_Box">';
+						
+						
+							
+						echo '</div>';
 					?>
 				</div>
 			</div>

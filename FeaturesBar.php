@@ -25,7 +25,7 @@
 	{
 		background: black;
 	}
-	
+
 	div.Form_Box
 	{
 		width:95%; 
@@ -44,9 +44,7 @@
 		box-shadow: 0 0 5px 2px #888;
 		
 		border-radius: 10px; 
-		background-color:white; 
-		
-		
+		background-color:white;
 	}
 	
 	div.features_div
@@ -81,7 +79,6 @@
 		if($_POST['selected'] == 7) echo ' selected';
 		echo'" href="userStats.php"> User Stats </a>';
 	}
-	
 	if($role != 3)
 	{
 		echo '<a class="feature';  
@@ -96,11 +93,5 @@
 		if($_POST['selected'] == 6) echo ' selected';
 		echo'" href="freezeThreads.php" > Freeze Threads </a>';
 	}
-	
-	/*
-	echo '<a class="feature';  
-	if($_POST['selected'] == 8) echo ' selected';
-	echo'" href="#"> Edit/Delete Messages </a>
-	*/
 	echo '</div>';
 ?>

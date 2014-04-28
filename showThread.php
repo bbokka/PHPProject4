@@ -42,7 +42,6 @@
 		-webkit-border-radius: 10px;
 		-moz-border-radius: 10px;
 		border-radius: 10px;
-		
 	}
 	.topicContainer .topicName
 	{
@@ -128,7 +127,8 @@
 				$category = $_REQUEST['category_id'];
 				$retrieveCategoryNameQuery = "
 											SELECT
-												cat_name 
+												cat_name,
+												id
 											FROM
 												P4_categories 
 											WHERE 
@@ -139,7 +139,8 @@
 				$CategoryName_res = mysql_query($retrieveCategoryNameQuery) or die(mysql_error());
 				while ($CategoryName_row = mysql_fetch_object($CategoryName_res)) 
 				{
-					echo '<h3  style="color:white!important">Category>>'.$CategoryName_row->cat_name.'</h3>';
+					echo '<h3><a href="showCategory.php" style="color:white"> Category</a>::';
+					echo '<a href="showThread.php?category_id='.$CategoryName_row->id.'"  style="color:white">'.$CategoryName_row->cat_name.'</a></h3>';
 				}
 			?>
 		</div>

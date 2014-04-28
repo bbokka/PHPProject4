@@ -29,9 +29,12 @@
 		-moz-border-radius: 10px;
 		border-radius: 10px;
 	}
-	.recent_post
+	.category_navigation a:hover
 	{
-		background: #92C7C7;
+		text-decoration: underline;
+	}
+	.recent_post_bar
+	{
 		width: 100%;
 		padding: 10px;
 		background: #FBB917;
@@ -110,12 +113,12 @@
 	.post_Actions .edit_button
 	{
 		background: url("images/edit_button.png") no-repeat;
-		background-color: #7F8778;
+		background-color: #92C7C7;
 	}
 	.post_Actions .delete_button
 	{
 		background: url("images/delete_button.png") no-repeat;
-		background-color: #db3222;
+		background-color: #FBB917;
 	}
 </style>
 </head>
@@ -320,7 +323,8 @@
 		$list = '';
 		
 		$retrieveCategoryNameQuery = "SELECT
-										cat_name 
+										cat_name, 
+										id
 									FROM
 										P4_categories 
 									WHERE 
@@ -330,10 +334,12 @@
 		while ($CategoryName_row = mysql_fetch_object($CategoryName_res)) 
 		{
 			$CategoryName=$CategoryName_row->cat_name;
+			$CategoryID=$CategoryName_row->id;
 		}
 
 		$retrieveThreadNameQuery = "SELECT
-										thread_name 
+										thread_name,
+										thread_id
 									FROM
 										P4_threads 
 									WHERE 
@@ -342,16 +348,16 @@
 		while ($ThreadName_row = mysql_fetch_object($ThreadName_res)) 
 		{
 			echo '<div class="category_navigation" >';
-			echo '<h3><a href="showCategory.php" style="color:white">Category</a>';
-			echo ">>";
-			echo '<a href="showCategory.php" style="color:white">'.$CategoryName.'</a>';
-			echo ">>";
-			echo '<a href="showThread.php" style="color:white">'.$ThreadName_row->thread_name.' </a>';
+			echo '<h3><a href="showCategory.php" style="color:white">Category</a>::';
+			
+			echo '<a href="showThread.php?category_id='.$CategoryID.'" style="color:white">'.$CategoryName.'</a>::';
+			
+			echo '<a href="extractPost.php?thread_id='.$ThreadName_row->thread_id.'" style="color:white">'.$ThreadName_row->thread_name.' </a>';
 			echo '</h3>
 				 </div>';
 			
 		}
-		echo '<div class="recent_post" >';
+		echo '<div class="recent_post_bar" >';
 		echo '<h3 style="color:white">Recent Posts</h3>';
 		echo '</div>';
 		
@@ -363,7 +369,7 @@
 			<div class="non_actions_part">
 				<div class="post_owner_details">
 					<span> <img alt="" src="images/'.$row['user_profile'].'" width="140" height="140" ></img> </span>
-					<span> '.$row['fname'].' </span>
+					<span><a href="userProfile.php?useraction='.$row['user_id'].'" style="color:green"> '.$row['fname'].' </a> </span>
 					<span> '.$row['role_name'].'</span>
 					';
 			if($row['role_id'] == 3)

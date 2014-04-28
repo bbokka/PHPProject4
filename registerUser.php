@@ -25,7 +25,7 @@
 			  <nav>
 				<ul class="sf-menu">
 					<?php 
-						$_POST['current'] = 5;
+						$_POST['current'] = 3;
 						include 'navBar.php'; 
 					?>
 				</ul>
@@ -40,7 +40,7 @@
 		 <br>
 			<h3><em><font face="verdana" color="green"> Registration Page </font></em></h3>
 			
-			<form action="registerProcess.php" name="form" method="post">
+			<form action="registerProcess.php" name="form" method="post" enctype="multipart/form-data">
 			<fieldset>
 				<div class="coll-1">
 				  <div>
@@ -111,6 +111,10 @@
 					<div class="form-txt">Type of Email you want to receive:</div>
 					<input type="radio" name="choice" value="1">text/plain<br>
 					<input type="radio" name="choice" value="2">text/html
+					<div class="clear"></div>
+					&nbsp;
+					<div class="form-txt">Upload your profile picture here:</div>
+					<input type="file" name="file" id="file"><br>
 					<div class="clear"></div>
 					&nbsp;
 				  </h4>

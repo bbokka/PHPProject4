@@ -127,7 +127,8 @@
   <div class="line-top"></div>
   <div class="main">
     <div class="row-top">
-      <h1><a href="index.html"><p><b><em><font face="verdana" color="OrangeRed">Art of Cooking</font></em></b></p></a></h1>
+      <h3><em><font face="verdana" color="red"> Art of Cooking</font></em></h3>
+	   <img alt="" src="images\cooking-college.jpg" width="170" height="100" >
       <nav>
        <ul class="sf-menu">
 			<?php 
@@ -254,8 +255,8 @@
 						A.date_last_modified, 
 						A.modified_by, 
 						A.post_id,
-						B.fname AS Modified_post_by,
-						B.user_profile
+						A.user_profile,
+						B.fname AS Modified_post_by
 					FROM   
 						(SELECT P.post_id, 
 								P.post_content, 
@@ -264,6 +265,7 @@
 								P.date_created, 
 								U.fname, 
 								U.username, 
+								U.user_profile,
 								P.date_last_modified, 
 								P.is_archived, 
 								U.id AS user_id, 
@@ -369,13 +371,13 @@
 			<div class="non_actions_part">
 				<div class="post_owner_details">
 					<span> <img alt="" src="images/'.$row['user_profile'].'" width="140" height="140" ></img> </span>
-					<span><a href="userProfile.php?useraction='.$row['user_id'].'" style="color:green"> '.$row['fname'].' </a> </span>
-					<span> '.$row['role_name'].'</span>
+					<span><h5><a href="userProfile.php?useraction='.$row['user_id'].'" style="color:green"> '.$row['fname'].' </a> </span>
+					<span> '.$row['role_name'].'</h5></span>
 					';
 			if($row['role_id'] == 3)
 			{
 				echo '
-					<span> User Level:';
+					<span><h5> User Level:';
 						$sql = "
 							SELECT 
 								U.id, 
@@ -399,19 +401,20 @@
 									echo 'Active';
 								else
 									echo 'Veteran';
+									
 							}
 						}
-				echo ' </span>';
+				echo ' </span></h5>';
 			}
 			echo '
 					</div>
 					<div class="post_details">
 						<div class="post_content">
-							'.$row['post_content'].'
+							<h5 style="color:green">'.$row['post_content'].'</h5>
 						</div>
 						<div class="post_Audits">
-							<span> Created: '.$row['date_created'].'</span>
-							<span> Last Modified: '.$row['date_last_modified'].'<br> by '.$row['Modified_post_by'].'</span>
+							<span> <h5 style="color:blue">Created: '.$row['date_created'].'</h5></span>
+							<span> <h5 style="color:blue">Last Modified: '.$row['date_last_modified'].'<br> By '.$row['Modified_post_by'].'</h5></span>
 						</div>
 					</div>
 				</div>

@@ -80,7 +80,7 @@
 				text-transform:uppercase;
 				display:block;
 				min-height: 30px;
-				border:1px solid red;
+				border:1px solid blue;
 				padding: 2px;
 				background:white;
 				
@@ -124,6 +124,7 @@
 				margin-left: auto;
 				margin-right: auto;
 				margin-bottom: 10px;
+				border:1px solid white;
 				
 				max-width:1024px; 
 				min-height:50px; 
@@ -216,13 +217,15 @@
 					<div class="user_image">
 					
 					<?php
+						$action = $_REQUEST['action'];
+						$user_id = $_REQUEST['user_id'];
 						$query="
 								SELECT 
 									user_profile 
 								FROM 
 									P4_users 
 								WHERE 
-									id=".$_SESSION['login_id'].";
+									id=".$user_id.";
 									";
 									
 						$result = mysql_query($query) or die ("Unable to execute query and reterive user profile " . mysql_error());
@@ -230,11 +233,14 @@
 						{
 							echo '<img alt="" src="images/'.$row['user_profile'].'" width="140" height="140" ></img> ';
 						}
-						echo '
-							<form action="upload_image.php" method="post" enctype="multipart/form-data">
-							<input type="file" name="file" id="file"><br>
-							<input type="submit" name="submit" value="Upload">
-							</form>';
+						if($user_id==$_SESSION['login_id'] )
+						{
+							echo '
+								<form action="upload_image.php" method="post" enctype="multipart/form-data">
+								<input type="file" name="file" id="file"><br>
+								<input type="submit" name="submit" value="Upload">
+								</form>';
+						}
 					?>
 					</div>
 					<br>
@@ -258,7 +264,7 @@
 													GROUP BY username
 												)
 												A 
-											WHERE A.id=".$_SESSION['login_id'] ."";
+											WHERE A.id=".$user_id ."";
 							$user_stats_query_result= mysql_query($user_stats_query) or die ("Unable to verify user because " . mysql_error());
 							$stats_row = mysql_fetch_assoc($user_stats_query_result);
 							
@@ -286,7 +292,7 @@
 												P4_users U,
 												P4_roles UR
 											WHERE 
-												U.id = ".$_SESSION['login_id'] ."
+												U.id = ".$user_id ."
 												AND U.role_id = UR.id";
 						$user_name_query_result = mysql_query($user_name_query) or die ("Unable to verify user because " . mysql_error());
 						$user_name_row = mysql_fetch_assoc($user_name_query_result);
@@ -294,34 +300,27 @@
 						echo'	<h5 style="color:green">'.$user_name_row['Name'].'</h5> 
 								</div>';
 						
-						$page=$_REQUEST['action'];
-						if($page=="posts")
+						
+						if($action=="posts")
 						{
 							$_POST['selected'] = 1;
 						}
-						else if($page=="activities")
+						else if($action=="information")
 						{
 							$_POST['selected'] = 2;
-						}
-						else if($page=="information")
-						{
-							$_POST['selected'] = 3;
 						}		
 						echo '	<div class="features_div">';
 									echo '<a class="feature'; 
 										if($_POST['selected'] == 1) echo ' selected';
-										echo'" href="userActivities.php?action=posts"> Postings </a>';
+										echo'" href="userActivities.php?action=posts&user_id='.$user_id.'"> Postings </a>';
 									
 									echo '<a class="feature'; 
 										if($_POST['selected'] == 2) echo ' selected';
-										echo'" href="userActivities.php?action=activities"> Recent Activity </a>';
-									echo '<a class="feature'; 
-										if($_POST['selected'] == 3) echo ' selected';
-										echo'" href="userActivities.php?action=information"> Information</a>';
+										echo'" href="userActivities.php?action=information&user_id='.$user_id.'"> Information</a>';
 						echo '	</div>
 								';
 						
-						if($page=="posts")
+						if($action=="posts")
 						{
 							//code for retreiving the recent posts
 							$user_posts_query="
@@ -343,7 +342,7 @@
 												AND C.Is_archived=0
 												AND P.Is_archived=0
 												AND U.id = P.posted_by 
-												AND U.id = ".$_SESSION['login_id'] ."";
+												AND U.id = ".$user_id."";
 							//print $user_posts_query;
 							$user_posts_query_result = mysql_query($user_posts_query) or die ("Unable to verify user because " . mysql_error());
 							while($user_posts_row = mysql_fetch_assoc($user_posts_query_result))
@@ -370,13 +369,10 @@
 								echo '</div>';
 							}
 						}
-						else if($page=="activities")
+						
+						else if($action=="information")
 						{
-							
-						}
-						else if($page=="information")
-						{
-							echo '<div class="Form_box">';
+							echo '<div class="Form_box" align="center">';
 							//code for pulling out the inforamtion of user
 							$user_info_query="
 											SELECT 
@@ -390,7 +386,7 @@
 												P4_roles UL 
 											WHERE
 												U.role_id=UL.id
-												AND U.id=".$_SESSION['login_id'] ."";
+												AND U.id=".$user_id ."";
 							$user_info_query_result = mysql_query($user_info_query) or die ("Unable to verify user because " . mysql_error());
 							$user_info_row = mysql_fetch_assoc($user_info_query_result);
 							echo '	<h3 style="color:orangered">First Name :'.$user_info_row['fname']. '&nbsp&nbsp<br>Last Name:'.$user_info_row['lname'].'</h3>';

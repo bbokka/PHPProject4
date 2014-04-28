@@ -152,9 +152,13 @@
 			<div class="topicReplies">
 				Replies
 			</div>
-			<div class="topicActions">
-				Actions
-			</div>
+			<?if($_SESSION['rank']!=3)
+						{
+			echo '<div class="topicActions">
+					Actions
+				</div>';
+				}
+			?>
 			<div class="topicActionDescription">
 				Audits
 			</div>

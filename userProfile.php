@@ -51,7 +51,7 @@
 				width:20%; 
 				display: block;
 				padding: 10px;
-				border:1px solid red;
+				
 				
 				-webkit-border-radius: 10px;
 				-moz-border-radius: 10px;
@@ -106,7 +106,7 @@
 				color: blue;
 				font-weight: 50;
 				text-align: center;
-				border:1px solid red;
+				
 				
 				-webkit-box-shadow: 0 0 5px 2px #fff;
 				-moz-box-shadow: 0 0 5px 2px #fff;
@@ -120,7 +120,7 @@
 			
 			a.selected
 			{
-				background: red;
+				background: #FBB917;
 			}
 				
 			div.features_div
@@ -260,20 +260,15 @@
 						echo'	<h5 style="color:green">'.$user_name_row['Name'].'</h5> 
 								</div>';
 						$page1="posts";
-						$page2="activities";
-						$page3="information";
+						$page2="information";
 						
 						echo '	<div class="features_div">';
 									echo '<a class="feature'; 
 										if($_POST['selected'] == 1) echo ' selected';
-										echo'" href="userActivities.php?action='.$page1.'"> Postings </a>';
-									
+										echo'" href="userActivities.php?action='.$page1.'&user_id='.$user_id.'"> Postings </a>';
 									echo '<a class="feature'; 
 										if($_POST['selected'] == 2) echo ' selected';
-										echo'" href="userActivities.php?action='.$page2.'"> Recent Activity </a>';
-									echo '<a class="feature'; 
-										if($_POST['selected'] == 3) echo ' selected';
-										echo'" href="userActivities.php?action='.$page3.'"> Information</a>';
+										echo'" href="userActivities.php?action='.$page2.'&user_id='.$user_id.'"> Information</a>';
 						echo '	</div>
 								';
 					?>

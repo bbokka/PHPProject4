@@ -84,14 +84,14 @@
 						echo '<h5 style="color: blue;">';
 						echo $row2['no_of_replies'];
 						echo '</h5>';
-					
-			echo '	</div>
+			if($_SESSION['rank']!=3)
+			{		
+				echo '	</div>
 					<div class="topicActions">
 					';
 					if($row['is_archived'] == 0)
 					{
-						if($_SESSION['rank']!=3)
-						{
+						
 							// Edit Button
 							echo '	
 								<div>
@@ -110,7 +110,7 @@
 										<input class="delete_button" type="submit" value="" />
 									</form>
 								</div>';
-						}
+						
 					}
 					else
 					{
@@ -118,24 +118,16 @@
 						echo 'Topic has been deleted';
 						echo '</h5>';
 					}
+			}
 			echo '	</div>
 					<div class="topicActionDescription">
-						<h5 style="color: blue;"> Created: '.$row['creation_date'].'
-						 Created By: '.$row['fname'].'
+						<h5 style="color: blue;"> Created By: '.$row['fname'].' <br>
+						Created on :'.$row['creation_date'].' <br>
 						Last Modified: '.$row['date_last_modified'].'</h5>
 					</div>
 				</div>';
 		}	
 	}
 ?>
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		

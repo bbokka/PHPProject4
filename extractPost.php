@@ -175,7 +175,13 @@
 	}
 	else 
 	{
-		$query="select * from P4_posts where thread_id = '$thread'";
+		$query="
+			SELECT 
+				* 
+			FROM
+				P4_posts 
+			WHERE
+				thread_id = '$thread'";
 		$result = mysql_query($query) or die ("Unable to verify user because " . mysql_error());
 		$num_rows = mysql_fetch_array($result);
 		if($num_rows ==0)

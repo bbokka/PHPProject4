@@ -186,7 +186,7 @@
 							A.date_registered, 
 							A.Num_posts,
 							B.Num_threads,
-							IFNULL(C.date_last_post, 'N/A') Date_Last_Post
+							IFNULL(C.date_last_post, 'No post Available') Date_Last_Post
 							
 						FROM (SELECT 
 								id,
@@ -274,7 +274,6 @@
 				<div class="fname_details" style="color:green">';
 					echo 'FirstName'; 
 				echo '</div>
-				`
 				<div class="lname_details" style="color:green">';
 					echo 'LastName';
 				echo '</div>
@@ -310,14 +309,13 @@
 	
 	while($row = mysql_fetch_assoc($result1)) 
 	{
-	
 		echo '
 			<h5>
 			<div class = "user_details_container">
 				<div class="fname_details">';
 					echo $row['fname'];
 				echo '</div>
-				`
+				
 				<div class="lname_details">';
 					echo $row['lname'];
 				echo '</div>

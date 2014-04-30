@@ -1,5 +1,6 @@
 <?php
 	session_start();
+	require_once("config.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -89,32 +90,34 @@
 		<section id="content">
 			<div sytle="margin : 0px auto">
 				<div class="main">
-				<div class="category_navigation">
-				<table>
-				<tr>
-					<td><h3 style= "color: white"> Category: </h3></td>
-					<td><form method="post" action="search.php">
-					<input type="text" name="search" />
-					<input type="submit" name="submit" value=" Search">
-					</form></td>
-					
-					<td><form method="post" action="singlesearchhtml.php">
-					<input type="submit" name="submit" value=" more">
-					</form></td>
-				 </tr>
-				</table>
-				</div>
-				<div class="category_div" style="background: #FBB917; color: white">
-					<div class="category_name">  
-						<h3 style= "color: white">Category Name</h3>
+					<div class="category_navigation">
+					<table>
+					<tr>
+						<form method="post" action="singleSearchForum.php">
+						<td><h3 style= "color: white"> Keywords: </h3>
+						<input type="text" name="searchword" /></td><br />
+						<td><h3 style= "color: white"> Search in Forums: </h3>
+								<?php
+									$query1 = "SELECT * 
+												FROM 
+													P4_categories
+												WHERE
+													Is_archived=0";
+											$result1 = mysql_query($query1) or die ("Unable to verify user because " . mysql_error());
+											echo '<select name="cat_name" style="width: 100%; display: block;">'; // Open your drop down box
+											// Loop through the query results, outputing the options one by one
+											while ($row1 = mysql_fetch_array($result1))
+											{
+												echo '<option value="'.$row1['id'].'">'.$row1['cat_name'].'</option>';
+											}
+											echo '</select>';
+								?></td><br />
+							<td><input type="submit" name="submit" value=" Search"></td>
+						</form>
+					</tr>
+					</table>
 					</div>
-					<div class="category_description">
-						<h3 style= "color: white">Description </h3>
-					</div>
 				</div>
-				<?php
-					include 'retrieveCategories.php';
-				?>
 			</div>
 		</section>
 		<footer>
@@ -125,3 +128,6 @@
 		</footer>
 		</body>
 </html>
+
+
+							

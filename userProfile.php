@@ -1,6 +1,7 @@
 <?php
 	session_start();
 	require_once('config.php');
+	if(!is_numeric())
 ?>
 <!DOCTYPE html>
 <html>
@@ -177,100 +178,132 @@
 					
 					<?php
 						$user_id = $_GET['useraction'];
-						$query="
-								SELECT 
-									user_profile 
-								FROM 
-									P4_users 
-								WHERE 
-									id=".$user_id.";
-									";
-									
-						$result = mysql_query($query) or die ("Unable to execute query and reterive user profile " . mysql_error());
-						while($row = mysql_fetch_assoc($result))
+						$user_id= mysql_real_escape_string($user_id);
+						if(!is_numeric($user_id))
 						{
-							echo '<img alt="" src="images/'.$row['user_profile'].'" width="140" height="140" ></img> ';
+							echo "	<script> 
+										alert('Sorry something went wrong!'); 
+										history.back(); 
+									</script> ";
 						}
-						if($user_id==$_SESSION['login_id'] )
+						else
 						{
-						echo '
-						
-							<form action="upload_image.php" method="post" enctype="multipart/form-data">
-							<input type="hidden" name="userprofile" value="<?php echo '.$user_id.'?> " />
-							<input type="file" name="file" id="file"><br>
-							<input type="submit" name="submit" value="Upload">
-							</form>';
-						}
-					?>
-					</div>
-					<br>
-					<div class="user_stats">
-						<?php
-							$user_stats_query="
-											SELECT
-												A.date_registered,
-												A.date_last_Post,
-												A.Num_posts
-											FROM(
-												SELECT 
-													U.fname,								
-													U.id,
-													U.date_registered,
-													Max(date_created) AS date_last_Post ,
-													Count(P.post_id) AS Num_posts 
-												FROM   
-													P4_posts P
-													RIGHT JOIN P4_users U ON P.posted_by = U.id 
-													GROUP BY username
-												)
-												A 
-											WHERE A.id=".$user_id ."";
-							$user_stats_query_result= mysql_query($user_stats_query) or die ("Unable to verify user because " . mysql_error());
-							$stats_row = mysql_fetch_assoc($user_stats_query_result);
-							
-							
-							$date_last_posted = explode(" ",$stats_row['date_last_Post']);					
-							echo'	<h5 style="color:blue">Last Activity&nbsp&nbsp: '.$date_last_posted[0].'</h5>';
-							
-							$date_joined = explode(" ",$stats_row['date_registered']);
-							echo '	<h5 style="color:blue">Joined&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: '.$date_joined[0].'</h5>';
-						
-							echo'	<h5 style="color:blue">Posts&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: '.$stats_row['Num_posts'].'</h5>';
-						?>
-					</div>
+							$sql_query="
+									SELECT 
+										user_profile 
+									FROM 
+										P4_users 
+									WHERE 
+										id=".$user_id.";
+										";
+							$sql_query_result = mysql_query($sql_query) or die ("Unable to execute query and reterive user profile " . mysql_error());
+							$count = mysql_num_rows($sql_query_result);
+							if($count==0)
+							{
+								echo'
+									<script> 
+										alert("User does not exists.!"); 
+										history.back(); 
+									</script> ';
+							}
+							else
+							{
+								$query="
+										SELECT 
+											user_profile 
+										FROM 
+											P4_users 
+										WHERE 
+											id=".$user_id.";
+											";
+											
+								$result = mysql_query($query) or die ("Unable to execute query and reterive user profile " . mysql_error());
+								while($row = mysql_fetch_assoc($result))
+								{
+									echo '<img alt="" src="images/'.$row['user_profile'].'" width="140" height="140" ></img> ';
+								}
+								if($user_id==$_SESSION['login_id'] )
+								{
+								echo '
+								
+									<form action="upload_image.php" method="post" enctype="multipart/form-data">
+									<input type="hidden" name="userprofile" value="<?php echo '.$user_id.'?> " />
+									<input type="file" name="file" id="file"><br>
+									<input type="submit" name="submit" value="Upload">
+									</form>';
+								}
+							?>
+							</div>
+							<br>
+							<div class="user_stats">
+								<?php
+									$user_stats_query="
+													SELECT
+														A.date_registered,
+														A.date_last_Post,
+														A.Num_posts
+													FROM(
+														SELECT 
+															U.fname,								
+															U.id,
+															U.date_registered,
+															Max(date_created) AS date_last_Post ,
+															Count(P.post_id) AS Num_posts 
+														FROM   
+															P4_posts P
+															RIGHT JOIN P4_users U ON P.posted_by = U.id 
+															GROUP BY username
+														)
+														A 
+													WHERE A.id=".$user_id ."";
+									$user_stats_query_result= mysql_query($user_stats_query) or die ("Unable to verify user because " . mysql_error());
+									$stats_row = mysql_fetch_assoc($user_stats_query_result);
 									
-				</div>
-				<div class="coll-2">
-					<?php
-						echo '	<div class="user_name_status">';
-						$user_name_query = "
-											SELECT 
-											   U.fname,
-											   U.lname,
-											   UR.Name
-											FROM 
-												P4_users U,
-												P4_roles UR
-											WHERE 
-												U.id = ".$user_id ."
-												AND U.role_id = UR.id";
-						$user_name_query_result = mysql_query($user_name_query) or die ("Unable to verify user because " . mysql_error());
-						$user_name_row = mysql_fetch_assoc($user_name_query_result);
-						echo '	<h3 style="color:orangered">'.$user_name_row['fname']. '&nbsp&nbsp'.$user_name_row['lname'].'</h3>';
-						echo'	<h5 style="color:green">'.$user_name_row['Name'].'</h5> 
-								</div>';
-						$page1="posts";
-						$page2="information";
-						
-						echo '	<div class="features_div">';
-									echo '<a class="feature'; 
-										if($_POST['selected'] == 1) echo ' selected';
-										echo'" href="userActivities.php?action='.$page1.'&user_id='.$user_id.'"> Postings </a>';
-									echo '<a class="feature'; 
-										if($_POST['selected'] == 2) echo ' selected';
-										echo'" href="userActivities.php?action='.$page2.'&user_id='.$user_id.'"> Information</a>';
-						echo '	</div>
-								';
+									
+									$date_last_posted = explode(" ",$stats_row['date_last_Post']);					
+									echo'	<h5 style="color:blue">Last Activity&nbsp&nbsp: '.$date_last_posted[0].'</h5>';
+									
+									$date_joined = explode(" ",$stats_row['date_registered']);
+									echo '	<h5 style="color:blue">Joined&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: '.$date_joined[0].'</h5>';
+								
+									echo'	<h5 style="color:blue">Posts&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: '.$stats_row['Num_posts'].'</h5>';
+								?>
+							</div>
+											
+						</div>
+						<div class="coll-2">
+							<?php
+								echo '	<div class="user_name_status">';
+								$user_name_query = "
+													SELECT 
+													   U.fname,
+													   U.lname,
+													   UR.Name
+													FROM 
+														P4_users U,
+														P4_roles UR
+													WHERE 
+														U.id = ".$user_id ."
+														AND U.role_id = UR.id";
+								$user_name_query_result = mysql_query($user_name_query) or die ("Unable to verify user because " . mysql_error());
+								$user_name_row = mysql_fetch_assoc($user_name_query_result);
+								echo '	<h3 style="color:orangered">'.$user_name_row['fname']. '&nbsp&nbsp'.$user_name_row['lname'].'</h3>';
+								echo'	<h5 style="color:green">'.$user_name_row['Name'].'</h5> 
+										</div>';
+								$page1="posts";
+								$page2="information";
+								
+								echo '	<div class="features_div">';
+											echo '<a class="feature'; 
+												if($_POST['selected'] == 1) echo ' selected';
+												echo'" href="userActivities.php?action='.$page1.'&user_id='.$user_id.'"> Postings </a>';
+											echo '<a class="feature'; 
+												if($_POST['selected'] == 2) echo ' selected';
+												echo'" href="userActivities.php?action='.$page2.'&user_id='.$user_id.'"> Information</a>';
+								echo '	</div>
+										';
+							}
+						}
 					?>
 				</div>
 			</div>

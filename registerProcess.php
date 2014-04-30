@@ -107,27 +107,16 @@
 			</script>';	
 	}
 	
-<<<<<<< HEAD
-		}
-	?>
-		
+	$cp= mysql_real_escape_string($_POST["captcha"]);
+	if(isset($cp)&&$cp!=""&&$_SESSION["code"]==$cp)
+	{
+		//echo " hey captcha worked";
+	}
+	else
+	{
+	die("Wrong Code Entered");
+	}
 	
-	<?php
-		$cp= mysql_real_escape_string($_POST["captcha"]);
-		if(isset($cp)&&$cp!=""&&$_SESSION["code"]==$cp)
-		{
-			//echo " hey captcha worked";
-		}
-		else
-		{
-		die("Wrong Code Entered");
-		}
-	?>	
-
-	<?php
-	   //validate the radio button
-		if($_POST['choice']==1 || $_POST['choice']==2)
-=======
 	//checking for the image	
 	//creating an array to check for the extension
 	$allowedExts = array("gif", "jpeg", "jpg", "png");
@@ -141,11 +130,10 @@
 	|| ($_FILES["file"]["type"] == "image/pjpeg")
 	|| ($_FILES["file"]["type"] == "image/x-png")
 	|| ($_FILES["file"]["type"] == "image/png"))
-	&& ($_FILES["file"]["size"] < 20000)
+	&& ($_FILES["file"]["size"] <  100000)
 	&& in_array($extension, $allowedExts)) 
 	{
 		if ($_FILES["file"]["error"] > 0) 
->>>>>>> cdcc9ac72a31ff71c775a9794ef0cc8df7a53a88
 		{
 			echo '
 				<script type="text/javascript">
@@ -155,11 +143,6 @@
 		}
 		else
 		{
-			/*echo "Upload: " . $_FILES["file"]["name"] . "<br>";
-			echo "Type: " . $_FILES["file"]["type"] . "<br>";
-			echo "Size: " . ($_FILES["file"]["size"] / 1024) . " kB<br>";
-			echo "Temp file: " . $_FILES["file"]["tmp_name"] . "<br>";*/
-			
 			if (file_exists("images/" . $_FILES["file"]["name"])) 
 			{
 				//javascript for this error

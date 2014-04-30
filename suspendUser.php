@@ -108,7 +108,7 @@
 							// Loop through the query results, outputing the options one by one
 							while ($row1 = mysql_fetch_array($result1))
 							{
-								if($row1['fname']!=$_SESSION['name'] && $row1['rank']!=4 )
+								if($row1['fname']!=$_SESSION['name'] && $row1['role_id']!=4 )
 								{
 									echo '<option value="'.$row1['id'].'">'.$row1['fname'].'</option>';
 								}

@@ -151,22 +151,62 @@
 <section id="content">
 <div sytle="margin : 0px auto">
 <div class="main">
-	<?php 
+<?php 
 	$search=$_POST[search];
 	$query="SELECT * FROM P4_posts " .
-		   "WHERE MATCH(post_content) AGAINST('$search' IN BOOLEAN MODE) order by date_created";
+		   "WHERE MATCH(post_content) AGAINST('$search' IN BOOLEAN MODE) 
+		   and is_archived=0
+		   order by date_created";
 				
     $result= mysql_query($query) or die ("Unable to verify user because " . mysql_error());
     $number = mysql_num_rows($result);
 	while($row = mysql_fetch_array($result))
 	{
-	$content= $row['post_content'];
-	$date=$row['date_created'];
+		$content= $row['post_content'];
+		$thread_id=$row['thread_id'];
 
-	//echo $date;
-	print " <tr>
-	<td>$date</td>
-	<td>$content</td></tr><br />";	
+		$query1="select * from P4_threads where thread_id=$thread_id";
+		$result1= mysql_query($query1) or die ("Unable to verify user because " . mysql_error());
+		while($row1 = mysql_fetch_array($result1))
+		{
+			$thread_name= $row1['thread_name'];
+			$cat_id=$row1['category_id'];
+			
+			$query2="select * from P4_categories where id=$cat_id";
+			$result2= mysql_query($query2) or die ("Unable to verify user because " . mysql_error());
+			while($row2 = mysql_fetch_array($result2))
+			{
+				$cat_name= $row2['cat_name'];
+				
+				print " <tr>
+				<td>$cat_name</td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<td>$thread_name</td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<td>$content</td></tr><br />";	
+			}
+		}
+	}
+	$query3="SELECT * FROM P4_threads " .
+				"WHERE MATCH(thread_name) AGAINST('$search' IN BOOLEAN MODE) 
+			and is_archived=0
+			order by creation_date";
+				
+    $result3= mysql_query($query3) or die ("Unable to verify user because " . mysql_error());
+	while($row3 = mysql_fetch_array($result3))
+	{
+		$th_id= $row3['thread_id'];
+		$th_name=$row3['thread_name'];
+		$cat_id_main=$row3['category_id'];
+		
+			$query4="select * from P4_categories where id=$cat_id_main";
+			$result4= mysql_query($query4) or die ("Unable to verify user because " . mysql_error());
+			while($row4 = mysql_fetch_array($result4))
+			{
+				$cat_name_main= $row4['cat_name'];
+
+				print " <tr>
+				<td>$cat_name_main</td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<td>$th_name</td></tr><br />";
+			}
 	}
 ?>
 		

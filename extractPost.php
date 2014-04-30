@@ -29,9 +29,12 @@
 		-moz-border-radius: 10px;
 		border-radius: 10px;
 	}
-	.recent_post
+	.category_navigation a:hover
 	{
-		background: #92C7C7;
+		text-decoration: underline;
+	}
+	.recent_post_bar
+	{
 		width: 100%;
 		padding: 10px;
 		background: #FBB917;
@@ -110,12 +113,12 @@
 	.post_Actions .edit_button
 	{
 		background: url("images/edit_button.png") no-repeat;
-		background-color: #7F8778;
+		background-color: #92C7C7;
 	}
 	.post_Actions .delete_button
 	{
 		background: url("images/delete_button.png") no-repeat;
-		background-color: #db3222;
+		background-color: #FBB917;
 	}
 </style>
 </head>
@@ -124,7 +127,8 @@
   <div class="line-top"></div>
   <div class="main">
     <div class="row-top">
-      <h1><a href="index.html"><p><b><em><font face="verdana" color="OrangeRed">Art of Cooking</font></em></b></p></a></h1>
+      <h3><em><font face="verdana" color="red"> Art of Cooking</font></em></h3>
+	   <img alt="" src="images\cooking-college.jpg" width="170" height="100" >
       <nav>
        <ul class="sf-menu">
 			<?php 
@@ -251,8 +255,8 @@
 						A.date_last_modified, 
 						A.modified_by, 
 						A.post_id,
-						B.fname AS Modified_post_by,
-						B.user_profile
+						A.user_profile,
+						B.fname AS Modified_post_by
 					FROM   
 						(SELECT P.post_id, 
 								P.post_content, 
@@ -261,6 +265,7 @@
 								P.date_created, 
 								U.fname, 
 								U.username, 
+								U.user_profile,
 								P.date_last_modified, 
 								P.is_archived, 
 								U.id AS user_id, 
@@ -320,7 +325,8 @@
 		$list = '';
 		
 		$retrieveCategoryNameQuery = "SELECT
-										cat_name 
+										cat_name, 
+										id
 									FROM
 										P4_categories 
 									WHERE 
@@ -330,10 +336,12 @@
 		while ($CategoryName_row = mysql_fetch_object($CategoryName_res)) 
 		{
 			$CategoryName=$CategoryName_row->cat_name;
+			$CategoryID=$CategoryName_row->id;
 		}
 
 		$retrieveThreadNameQuery = "SELECT
-										thread_name 
+										thread_name,
+										thread_id
 									FROM
 										P4_threads 
 									WHERE 
@@ -342,16 +350,16 @@
 		while ($ThreadName_row = mysql_fetch_object($ThreadName_res)) 
 		{
 			echo '<div class="category_navigation" >';
-			echo '<h3><a href="showCategory.php" style="color:white">Category</a>';
-			echo ">>";
-			echo '<a href="showCategory.php" style="color:white">'.$CategoryName.'</a>';
-			echo ">>";
-			echo '<a href="showThread.php" style="color:white">'.$ThreadName_row->thread_name.' </a>';
+			echo '<h3><a href="showCategory.php" style="color:white">Category</a>::';
+			
+			echo '<a href="showThread.php?category_id='.$CategoryID.'" style="color:white">'.$CategoryName.'</a>::';
+			
+			echo '<a href="extractPost.php?thread_id='.$ThreadName_row->thread_id.'" style="color:white">'.$ThreadName_row->thread_name.' </a>';
 			echo '</h3>
 				 </div>';
 			
 		}
-		echo '<div class="recent_post" >';
+		echo '<div class="recent_post_bar" >';
 		echo '<h3 style="color:white">Recent Posts</h3>';
 		echo '</div>';
 		
@@ -363,13 +371,13 @@
 			<div class="non_actions_part">
 				<div class="post_owner_details">
 					<span> <img alt="" src="images/'.$row['user_profile'].'" width="140" height="140" ></img> </span>
-					<span> '.$row['fname'].' </span>
-					<span> '.$row['role_name'].'</span>
+					<span><h5><a href="userProfile.php?useraction='.$row['user_id'].'" style="color:green"> '.$row['fname'].' </a> </span>
+					<span> '.$row['role_name'].'</h5></span>
 					';
 			if($row['role_id'] == 3)
 			{
 				echo '
-					<span> User Level:';
+					<span><h5> User Level:';
 						$sql = "
 							SELECT 
 								U.id, 
@@ -393,19 +401,20 @@
 									echo 'Active';
 								else
 									echo 'Veteran';
+									
 							}
 						}
-				echo ' </span>';
+				echo ' </span></h5>';
 			}
 			echo '
 					</div>
 					<div class="post_details">
 						<div class="post_content">
-							'.$row['post_content'].'
+							<h5 style="color:green">'.$row['post_content'].'</h5>
 						</div>
 						<div class="post_Audits">
-							<span> Created: '.$row['date_created'].'</span>
-							<span> Last Modified: '.$row['date_last_modified'].'<br> by '.$row['Modified_post_by'].'</span>
+							<span> <h5 style="color:blue">Created: '.$row['date_created'].'</h5></span>
+							<span> <h5 style="color:blue">Last Modified: '.$row['date_last_modified'].'<br> By '.$row['Modified_post_by'].'</h5></span>
 						</div>
 					</div>
 				</div>

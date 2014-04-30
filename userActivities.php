@@ -21,7 +21,7 @@
 			{
 				width: 100%;
 				padding: 10px;
-				background: #FBB917;
+				background: #92C7C7;
 				color: white;
 				max-width:1024px;
 				margin: 5px auto;
@@ -31,10 +31,11 @@
 			}
 			.profile_div
 			{
-				background :white;
+				background: white;
 				width: 100%;
 				max-width:1024px;
 				min-height:500px;
+				overflow: auto;
 				display: block;
 				padding: 10px;
 				margin: 5px auto;/*margin */
@@ -46,12 +47,11 @@
 			
 			.coll-1
 			{
-				background :#92C7C7; 
 				float:left;
 				width:20%; 
 				display: block;
 				padding: 10px;
-				
+				background: #92C7C7;
 				
 				-webkit-border-radius: 10px;
 				-moz-border-radius: 10px;
@@ -80,20 +80,13 @@
 				text-transform:uppercase;
 				display:block;
 				min-height: 30px;
-				border:1px solid red;
+				border:1px solid blue;
 				padding: 2px;
-				
-				
-				-webkit-box-shadow: 0 0 5px 2px #fff;
-				-moz-box-shadow: 0 0 5px 2px #fff;
-				box-shadow: 0 0 5px 2px #fff;
 				background:white;
-				-moz-border-radius: 5px;
-				-webkit-border-radius: 5px;
-				-khtml-border-radius: 5px;
-				border-radius: 5px;
 				
-				
+				-webkit-border-radius: 10px;
+				-moz-border-radius: 10px;
+				border-radius: 10px;
 			}
 			a.feature
 			{
@@ -103,7 +96,7 @@
 				margin-right: 15px;
 				margin-top: 15px;
 				padding: 5px auto;
-				color: blue;
+				color: white;
 				font-weight: 50;
 				text-align: center;
 				
@@ -120,12 +113,60 @@
 			
 			a.selected
 			{
-				background: #FBB917;
+				background: orange;
 			}
-				
-			div.features_div
+			
+			.Form_Box
 			{
+				background: white;
+				width: 100%;
+				display: inline-block;				
+				margin-left: auto;
+				margin-right: auto;
+				margin-bottom: 10px;
+				border:1px solid white;
 				
+				max-width:1024px; 
+				min-height:50px; 
+				padding:3px;
+				-webkit-border-radius: 10px;
+				-moz-border-radius: 10px;
+				
+				-webkit-box-shadow: 0 0 5px 2px #888;
+				-moz-box-shadow: 0 0 5px 2px #888;
+				box-shadow: 0 0 5px 2px #888;
+				
+				border-radius: 10px;
+			}
+			.image_part
+			{
+				width: 15%;
+				display: inline-block;
+				
+			}
+			
+			.post_details
+			{
+				display: inline-block;
+				width: 78%;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			.post_content, .post_Audits
+			{
+				width: 100%;
+			}
+			.post_content
+			{
+				overflow: auto;
+				/*border-top: 1px solid red;  
+				background: #92C7C7;*/
+				border-radius: 10px;
+				padding: 1px;
+			}
+	
+			.features_div
+			{
 				width:95%; 
 				margin-left: auto;
 				margin-right: auto;
@@ -176,7 +217,8 @@
 					<div class="user_image">
 					
 					<?php
-						$user_id = $_GET['useraction'];
+						$action = $_REQUEST['action'];
+						$user_id = $_REQUEST['user_id'];
 						$query="
 								SELECT 
 									user_profile 
@@ -193,13 +235,11 @@
 						}
 						if($user_id==$_SESSION['login_id'] )
 						{
-						echo '
-						
-							<form action="upload_image.php" method="post" enctype="multipart/form-data">
-							<input type="hidden" name="userprofile" value="<?php echo '.$user_id.'?> " />
-							<input type="file" name="file" id="file"><br>
-							<input type="submit" name="submit" value="Upload">
-							</form>';
+							echo '
+								<form action="upload_image.php" method="post" enctype="multipart/form-data">
+								<input type="file" name="file" id="file"><br>
+								<input type="submit" name="submit" value="Upload">
+								</form>';
 						}
 					?>
 					</div>
@@ -230,12 +270,12 @@
 							
 							
 							$date_last_posted = explode(" ",$stats_row['date_last_Post']);					
-							echo'	<h5 style="color:blue">Last Activity&nbsp&nbsp: '.$date_last_posted[0].'</h5>';
+							echo'	<h5 style="color:white">Last Activity&nbsp&nbsp: '.$date_last_posted[0].'</h5>';
 							
 							$date_joined = explode(" ",$stats_row['date_registered']);
-							echo '	<h5 style="color:blue">Joined&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: '.$date_joined[0].'</h5>';
+							echo '	<h5 style="color:white">Joined&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: '.$date_joined[0].'</h5>';
 						
-							echo'	<h5 style="color:blue">Posts&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: '.$stats_row['Num_posts'].'</h5>';
+							echo'	<h5 style="color:white">Posts&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: '.$stats_row['Num_posts'].'</h5>';
 						?>
 					</div>
 									
@@ -259,18 +299,104 @@
 						echo '	<h3 style="color:orangered">'.$user_name_row['fname']. '&nbsp&nbsp'.$user_name_row['lname'].'</h3>';
 						echo'	<h5 style="color:green">'.$user_name_row['Name'].'</h5> 
 								</div>';
-						$page1="posts";
-						$page2="information";
 						
+						
+						if($action=="posts")
+						{
+							$_POST['selected'] = 1;
+						}
+						else if($action=="information")
+						{
+							$_POST['selected'] = 2;
+						}		
 						echo '	<div class="features_div">';
 									echo '<a class="feature'; 
 										if($_POST['selected'] == 1) echo ' selected';
-										echo'" href="userActivities.php?action='.$page1.'&user_id='.$user_id.'"> Postings </a>';
+										echo'" href="userActivities.php?action=posts&user_id='.$user_id.'"> Postings </a>';
+									
 									echo '<a class="feature'; 
 										if($_POST['selected'] == 2) echo ' selected';
-										echo'" href="userActivities.php?action='.$page2.'&user_id='.$user_id.'"> Information</a>';
+										echo'" href="userActivities.php?action=information&user_id='.$user_id.'"> Information</a>';
 						echo '	</div>
 								';
+						
+						if($action=="posts")
+						{
+							//code for retreiving the recent posts
+							$user_posts_query="
+											SELECT
+												C.cat_name, 
+												T.thread_name,
+												P.post_content, 
+												P.date_created, 
+												U.fname, 
+												U.user_profile
+											FROM  	
+												P4_users U,
+												P4_posts P, 
+												P4_threads T, 
+												P4_categories C 
+										WHERE 	
+												P.thread_id = T.thread_id 
+												AND T.category_id = C.id 
+												AND C.Is_archived=0
+												AND P.Is_archived=0
+												AND U.id = P.posted_by 
+												AND U.id = ".$user_id."";
+							//print $user_posts_query;
+							$user_posts_query_result = mysql_query($user_posts_query) or die ("Unable to verify user because " . mysql_error());
+							while($user_posts_row = mysql_fetch_assoc($user_posts_query_result))
+							{
+								echo '<div class="Form_Box">';
+								echo '	<div class ="image_part">';
+								echo '	<img alt="" src="images/'.$user_posts_row['user_profile'].'" width="60" height="60" ></img> 
+										</div>';
+								echo '	<div class="post_details">';
+									echo '	<div class="post_Audits">';
+										
+										echo $user_posts_row['thread_name'];
+									echo '	</div>';
+									echo '	<div class ="post_content">';
+										echo  $user_posts_row['post_content'];
+									echo '	</div>';
+									$date_posted = explode(" ",$user_posts_row['date_created']);
+									echo '<div class="post_Audits">';
+										echo 'Posted BY :'.$user_posts_row['fname'] ;
+										echo '&nbsp at '.$date_posted[0];
+										echo '&nbsp in ' .$user_posts_row['cat_name'];
+									echo '</div>';
+								echo '	</div>';
+								echo '</div>';
+							}
+						}
+						
+						else if($action=="information")
+						{
+							echo '<div class="Form_box" align="center">';
+							//code for pulling out the inforamtion of user
+							$user_info_query="
+											SELECT 
+												UL.Name as role,
+												U.fname,
+												U.lname,
+												U.email,
+												U.username 
+											FROM
+												P4_users U,
+												P4_roles UL 
+											WHERE
+												U.role_id=UL.id
+												AND U.id=".$user_id ."";
+							$user_info_query_result = mysql_query($user_info_query) or die ("Unable to verify user because " . mysql_error());
+							$user_info_row = mysql_fetch_assoc($user_info_query_result);
+							echo '	<h3 style="color:orangered">First Name :'.$user_info_row['fname']. '&nbsp&nbsp<br>Last Name:'.$user_info_row['lname'].'</h3>';
+							echo '	<h5 style="color:green">User Name :'.$user_info_row['username'].'</h5> ';
+							echo '	<h5 style="color:green">User Name :'.$user_info_row['email'].'</h5>';
+							echo '	<h5 style="color:green">User Name :'.$user_info_row['role'].'</h5>';
+							echo "</div>";
+													
+						}		
+						
 					?>
 				</div>
 			</div>

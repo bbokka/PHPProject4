@@ -7,7 +7,7 @@
 	$temp = explode(".", $_FILES["file"]["name"]);
 	$extension = end($temp);
 	//$date= date("Y/m/d");
-	$image_rand =  rand() % 1000000+100000;	
+	$image_rand =  rand() % 1000000+100000;
 				
 
 	if ((($_FILES["file"]["type"] == "image/gif")
@@ -16,7 +16,7 @@
 	|| ($_FILES["file"]["type"] == "image/pjpeg")
 	|| ($_FILES["file"]["type"] == "image/x-png")
 	|| ($_FILES["file"]["type"] == "image/png"))
-	&& ($_FILES["file"]["size"] < 20000)
+	&& ($_FILES["file"]["size"] < 100000)
 	&& in_array($extension, $allowedExts)) 
 	{
 		if ($_FILES["file"]["error"] > 0)
@@ -49,15 +49,16 @@
 										id= ".$_SESSION['login_id'] ."";
 				$result2= mysql_query($image_update_query) or die ("Unable to verify user because " . mysql_error());
 				move_uploaded_file($_FILES["file"]["tmp_name"],"images/" . $value);
-				header("Location: userProfile.php");
+				header("Location: userProfile.php?useraction=".$_SESSION['login_id']."");
 			}
-	  }
+		}
 	} 
 	else 
 	{
 		echo '	<script type="text/javascript">
-					alert("Invalid Image !! Choose another image");
+					alert("Invalid Image /!! Choose another image");
 					history.back();
 				</script>';	
 	}
+	
 ?>

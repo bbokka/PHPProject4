@@ -18,10 +18,19 @@
 	{
 		$th_id= $row1['thread_id'];
 		$th_name=$row1['thread_name'];
+		$cat_id1=$row1['category_id'];
 		
-		print " <tr>
-				<td>$th_name</td>
-				<td>Thread</td></tr><br />";
+	
+		$query3="select * from P4_categories where id=$cat_id1";
+			$result3= mysql_query($query3) or die ("Unable to verify user because " . mysql_error());
+			while($row3 = mysql_fetch_array($result3))
+			{
+				$cat_name1= $row3['cat_name'];
+
+				print " <tr>
+				<td>$cat_name1</td>
+				<td>$th_name</td></tr><br />";
+			}
 	}
     
 	$query="SELECT thread_id,thread_name
@@ -46,11 +55,30 @@
 		
 		while($row2 = mysql_fetch_array($result2))
 			{  
+
 				$content= $row2['post_content'];
-				print " <tr>
-				<td>$content</td>
-				<td>Post</td></tr><br />"; 
-			} 
+				$thread_id1=$row2['thread_id'];
+				
+				$query4="select * from P4_threads where thread_id=$thread_id1";
+				$result4= mysql_query($query4) or die ("Unable to verify user because " . mysql_error());
+				while($row4 = mysql_fetch_array($result4))
+				{
+					$thread_name1= $row4['thread_name'];
+					$cat_id1=$row4['category_id'];
+					
+					$query5="select * from P4_categories where id=$cat_id1";
+					$result5= mysql_query($query5) or die ("Unable to verify user because " . mysql_error());
+					while($row5 = mysql_fetch_array($result5))
+					{
+						$cat_name1= $row5['cat_name'];
+
+						print " <tr>
+						<td>$cat_name1</td>
+						<td>$thread_name1</td>
+						<td>$content</td></tr><br />"; 
+					} 
+				}
+			}
 	}
 	
 ?>

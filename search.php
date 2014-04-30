@@ -24,14 +24,21 @@
 		width: 100%;
 		padding: 10px;
 		margin: 2px auto;
+		font-family: Georgia, "Times New Roman", Times, serif;
+		font-weight: normal;
+		font-style:initial ;
+		color:orangeRed;
 		
 		-webkit-border-radius: 10px;
 		-moz-border-radius: 10px;
 		border-radius: 10px;
 	}
-	.recent_post
+	.category_navigation a:hover
 	{
-		background: #92C7C7;
+		text-decoration: underline;
+	}
+	.search_results
+	{
 		width: 100%;
 		padding: 10px;
 		background: #FBB917;
@@ -41,7 +48,7 @@
 		-moz-border-radius: 10px;
 		border-radius: 10px;
 	}
-	.post_container
+	.search_Container
 	{
 		background: white;
 		width: 100%;
@@ -52,71 +59,34 @@
 		-webkit-border-radius: 10px;
 		-moz-border-radius: 10px;
 		border-radius: 10px;
-		
 	}
-	.non_actions_part
+	.search_path
 	{
-		width: 95%;
-		display: inline-block;
+		color:blue;
+		font-family: Georgia, "Times New Roman", Times, serif;
+		font-weight: normal;
+		font-style: italic;
+		text-decoration: underline;
 	}
-	.post_Actions
+	.search_Content
 	{
-		width: 4%;
-		display: inline-block;
+		width:100%;
+		color:green;
+		font-family: Georgia, "Times New Roman", Times, serif;
+		font-weight: normal;
+		font-style:initial ;
 	}
-	.non_actions_part div
+	div.search_C
 	{
-		display: inline-block;
+		width: 65%;
+		float: left;
 	}
-	.post_owner_details
+	div.search_Co
 	{
-		width: 20%;
-		min-height: 100px;
+		width: 5%;
+		float: right;
 	}
-	.post_owner_details span , .post_Audits span
-	{
-		display: block;
-	}
-	.post_details
-	{
-		width: 78%;
-		margin-left: auto;
-		margin-right: auto;
-	}
-	.post_content, .post_Audits
-	{
-		width: 100%;
-	}
-	.post_content
-	{
-		min-height: 100px;
-		/*border-top: 1px solid red;  */
-		background: #92C7C7;
-		border-radius: 10px;
-		padding: 2px;
-	}
-	.post_Actions input[type="submit"]
-	{
-		width: 36px;
-		height: 36px;
-		border-radius: 50%;
-		background-size:36px 36px;
-		border: none;
-	}
-	.post_Actions div
-	{
-		display: inline-block;
-	}
-	.post_Actions .edit_button
-	{
-		background: url("images/edit_button.png") no-repeat;
-		background-color: #7F8778;
-	}
-	.post_Actions .delete_button
-	{
-		background: url("images/delete_button.png") no-repeat;
-		background-color: #db3222;
-	}
+	
 </style>
 </head>
 <body>
@@ -124,7 +94,8 @@
   <div class="line-top"></div>
   <div class="main">
     <div class="row-top">
-      <h1><a href="index.html"><p><b><em><font face="verdana" color="OrangeRed">Art of Cooking</font></em></b></p></a></h1>
+      <h3><em><font face="verdana" color="red"> Art of Cooking</font></em></h3>
+	   <img alt="" src="images\cooking-college.jpg" width="170" height="100" >
       <nav>
        <ul class="sf-menu">
 			<?php 
@@ -152,71 +123,114 @@
 <div sytle="margin : 0px auto">
 <div class="main">
 <?php 
-	$search=$_POST[search];
-	$query="SELECT * FROM P4_posts " .
-		   "WHERE MATCH(post_content) AGAINST('$search' IN BOOLEAN MODE) 
-		   and is_archived=0
-		   order by date_created";
-				
-    $result= mysql_query($query) or die ("Unable to verify user because " . mysql_error());
-    $number = mysql_num_rows($result);
-	while($row = mysql_fetch_array($result))
+	if(empty($_POST['search']))
 	{
-		$content= $row['post_content'];
-		$thread_id=$row['thread_id'];
-
-		$query1="select * from P4_threads where thread_id=$thread_id";
-		$result1= mysql_query($query1) or die ("Unable to verify user because " . mysql_error());
-		while($row1 = mysql_fetch_array($result1))
+		echo '	<script type="text/javascript">
+					alert("Please enter a search keyword!!");
+					history.back();
+				</script>';
+	}
+	else
+	{
+		echo '	<div class = "category_navigation">
+					<h3 style="color:white"><a href="showCategory.php" style="color:white">Forums</a> >>Search</h3>
+				</div>';
+		echo '	<div class = "search_results">
+					<h3 style="color:white"> All Forum Search Results</h3>
+				</div>';
+		$search=$_POST['search'];
+		$query="SELECT 
+					* 
+				FROM 
+					P4_posts " .
+			   "WHERE MATCH(post_content) AGAINST('$search' IN BOOLEAN MODE) 
+			   and is_archived=0
+			   order by date_created";
+					
+		$result= mysql_query($query) or die ("Unable to verify user because " . mysql_error());
+		$number = mysql_num_rows($result);
+		
+		while($row = mysql_fetch_array($result))
 		{
-			$thread_name= $row1['thread_name'];
-			$cat_id=$row1['category_id'];
-			
-			$query2="select * from P4_categories where id=$cat_id";
-			$result2= mysql_query($query2) or die ("Unable to verify user because " . mysql_error());
-			while($row2 = mysql_fetch_array($result2))
+			$content= $row['post_content'];
+			$thread_id=$row['thread_id'];
+
+			$query1="select * from P4_threads where thread_id=$thread_id";
+			$result1= mysql_query($query1) or die ("Unable to verify user because " . mysql_error());
+			while($row1 = mysql_fetch_array($result1))
 			{
-				$cat_name= $row2['cat_name'];
+				$thread_name= $row1['thread_name'];
+				$cat_id=$row1['category_id'];
 				
-				print " <tr>
-				<td>$cat_name</td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<td>$thread_name</td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<td>$content</td></tr><br />";	
+				$query2="select * from P4_categories where id=$cat_id";
+				$result2= mysql_query($query2) or die ("Unable to verify user because " . mysql_error());
+				while($row2 = mysql_fetch_array($result2))
+				{
+					$cat_name= $row2['cat_name'];
+					
+					echo '	<div class = "search_Container" >
+								<div class = "search_path">
+									<a href="showThread.php?category_id='.$cat_id.'" style="color:blue">'.$cat_name.'</a> ';
+									echo ' >> ';
+									echo '<a href="extractPost.php?thread_id='.$thread_id.'" style="color:red">'.$thread_name.'</a>
+								</div>
+								<div class = "search_Content">
+									 <div class = "search_C">
+										'.$content.'
+									</div>
+									<div class = "search_Co">
+										Post
+									</div>
+								</div>								
+							</div>';
+				}
 			}
 		}
+		
+		
+		$query3="SELECT * FROM P4_threads " .
+					"WHERE MATCH(thread_name) AGAINST('$search' IN BOOLEAN MODE) 
+				and is_archived=0
+				order by creation_date";
+					
+		$result3= mysql_query($query3) or die ("Unable to verify user because " . mysql_error());
+		$count3=mysql_num_rows($result3);
+		
+		while($row3 = mysql_fetch_array($result3))
+		{
+			$th_id= $row3['thread_id'];
+			$th_name=$row3['thread_name'];
+			$cat_id_main=$row3['category_id'];
+			
+				$query4="select * from P4_categories where id=$cat_id_main";
+				$result4= mysql_query($query4) or die ("Unable to verify user because " . mysql_error());
+				while($row4 = mysql_fetch_array($result4))
+				{
+					$cat_name_main= $row4['cat_name'];
+					echo '	<div class = "search_Container" >
+								<div class = "search_path">
+									<a href="showThread.php?category_id='.$cat_id_main.'" style="color:blue">'.$cat_name_main.'</a> 
+								</div>
+								<div class = "search_Content">
+									<div class = "search_C">
+										<a href="extractPost.php?thread_id='.$th_id.'" style="color:red">'.$th_name.'</a>
+									</div>
+									<div class = "search_Co">
+										Topic
+									</div>
+								</div>				
+							</div>';
+				}
+		}
+		
 	}
-	$query3="SELECT * FROM P4_threads " .
-				"WHERE MATCH(thread_name) AGAINST('$search' IN BOOLEAN MODE) 
-			and is_archived=0
-			order by creation_date";
-				
-    $result3= mysql_query($query3) or die ("Unable to verify user because " . mysql_error());
-	while($row3 = mysql_fetch_array($result3))
-	{
-		$th_id= $row3['thread_id'];
-		$th_name=$row3['thread_name'];
-		$cat_id_main=$row3['category_id'];
-		
-			$query4="select * from P4_categories where id=$cat_id_main";
-			$result4= mysql_query($query4) or die ("Unable to verify user because " . mysql_error());
-			while($row4 = mysql_fetch_array($result4))
-			{
-				$cat_name_main= $row4['cat_name'];
-
-				print " <tr>
-				<td>$cat_name_main</td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<td>$th_name</td></tr><br />";
-			}
-	}
-?>
-		
-		
+?>	
 	</div>
 	</div>
 </section>
 <footer>
   <div class="main">
-    <div class="policy">Copyright @ 2014 Art of cooking powered by Babitha Bokka & Vaidehi Putta </div>
+    <div class="policy"> <h5 style="color:green!important" >Copyright @ 2014 Art of cooking powered by Babitha Bokka & Vaidehi Putta </h5></div>
     <div class="clear"></div>
   </div>
 </footer>

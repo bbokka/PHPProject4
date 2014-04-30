@@ -1,0 +1,11 @@
+if($count3&& $number)
+		{
+		
+		}
+		else
+		{
+			echo '	<script type="text/javascript">
+					alert("No search results Found!!");
+					history.back();
+				</script>';
+		}

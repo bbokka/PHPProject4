@@ -107,180 +107,184 @@
 			</script>';	
 	}
 	
-	$cp= mysql_real_escape_string($_POST["captcha"]);
-	if(isset($cp)&&$cp!=""&&$_SESSION["code"]==$cp)
+	$cp= $_POST["captcha"];
+	if(isset($cp) && !empty($cp) && $_SESSION["code"] == $cp)	
 	{
-		//echo " hey captcha worked";
-	}
-	else
-	{
-	die("Wrong Code Entered");
-	}
-	
-	//checking for the image	
-	//creating an array to check for the extension
-	$allowedExts = array("gif", "jpeg", "jpg", "png");
-	//extracting the extension of the file given by the user explode() function 
-	$temp = explode(".", $_FILES["file"]["name"]);
-	$extension = end($temp);
-	//checking for the image file
-	if ((($_FILES["file"]["type"] == "image/gif")
-	|| ($_FILES["file"]["type"] == "image/jpeg")
-	|| ($_FILES["file"]["type"] == "image/jpg")
-	|| ($_FILES["file"]["type"] == "image/pjpeg")
-	|| ($_FILES["file"]["type"] == "image/x-png")
-	|| ($_FILES["file"]["type"] == "image/png"))
-	&& ($_FILES["file"]["size"] <  100000)
-	&& in_array($extension, $allowedExts)) 
-	{
-		if ($_FILES["file"]["error"] > 0) 
+		
+		//checking for the image	
+		//creating an array to check for the extension
+		$allowedExts = array("gif", "jpeg", "jpg", "png");
+		//extracting the extension of the file given by the user explode() function 
+		$temp = explode(".", $_FILES["file"]["name"]);
+		$extension = end($temp);
+		//checking for the image file
+		if ((($_FILES["file"]["type"] == "image/gif")
+		|| ($_FILES["file"]["type"] == "image/jpeg")
+		|| ($_FILES["file"]["type"] == "image/jpg")
+		|| ($_FILES["file"]["type"] == "image/pjpeg")
+		|| ($_FILES["file"]["type"] == "image/x-png")
+		|| ($_FILES["file"]["type"] == "image/png"))
+		&& ($_FILES["file"]["size"] <  100000)
+		&& in_array($extension, $allowedExts)) 
 		{
-			echo '
-				<script type="text/javascript">
-					alert("Return Code: '. $_FILES["file"]["error"] .' ");
-					history.back();
-				</script>';	 
-		}
-		else
-		{
-			if (file_exists("images/" . $_FILES["file"]["name"])) 
+			if ($_FILES["file"]["error"] > 0) 
 			{
-				//javascript for this error
 				echo '
 					<script type="text/javascript">
-						alert("Image Already exists: '. $_FILES["file"]["name"] .' ");
+						alert("Return Code: '. $_FILES["file"]["error"] .' ");
 						history.back();
-					</script>';
-			} 
+					</script>';	 
+			}
 			else
 			{
-				//$image_date= date("Y/m/d");
-				$image_rand =  rand() % 1000000+100000;	
-				$image_value = $image_date.$image_rand .$_FILES["file"]["name"];
-				move_uploaded_file($_FILES["file"]["tmp_name"],"images/" . $image_value);
-			}
-	  }
-	} 
-	else 
-	{
-		echo '	<script type="text/javascript">
-					alert("Invalid Image !! Choose another image");
-					history.back();
-				</script>';	
-	}
-	
-	//checking the user in database and inserting
-	if($fn && $ln && $un && $e1 && $p && $c1 && $image_value)
-	{
-		$query = "SELECT 
-					*
-				FROM 
-					P4_users 
-				WHERE 
-					email='$e1'";
-		$result= mysql_query($query) or die ("Unable to verify email because " . mysql_error());
-		if(mysql_num_rows($result) == 0)
-		{
-			$activation =  rand() % 1000000+10000;
-					
-			$query = "INSERT INTO 
-						P4_users
-							(id,
-							 fname,
-							 lname,
-							 username,
-							 email,
-							 password,
-							 Is_suspended,
-							 Is_verified,
-							 email_setting,
-							 Is_archived,
-							 activationkey,
-							 date_registered,
-							 role_id,
-							 user_profile) 
-						VALUES(' ',
-							  '$fn',
-							  '$ln',
-							  '$un',
-							  '$e1',
-							  '$p',
-							  '0',
-							  '0',
-							  '$c1',
-							  ' ',
-							  '$activation',																					
-							  '$date',
-							  '3',
-							  '$image_value')";		
-			$result= mysql_query($query) or die ("Unable to execute the insert query " . mysql_error());
-			
-			if (mysql_affected_rows() == 1)
-			{
-				//sending plain mesasge with out html
-				if($c1==1)					
+				if (file_exists("images/" . $_FILES["file"]["name"])) 
 				{
-					$to="bbokka@cs.odu.edu";
-					$subject="REGISTRATION CONFIRMATION";
-					
-					$headers = "MIME-Version: 1.0\r\n";	
-					$headers.= "Content-Type: text/plain; charset=UTF-8\r\n";
-					$headers.= "Content-Transfer-Encoding: 7bit\r\n";
-					$headers.= "From: bbokka@cs.odu.edu\r\n";
-					
-					$message="Thank you for your Registration.";
-					$message.="http://weiglevm.cs.odu.edu/~bbokka/devsandbox/PHPProject4/enterActivationCode.php";
-					$message.="\nPlease enter the six digit code at the link provided." .$activation;
-					
-					mail($to, $subject, $message, $headers);
-				}
-				//sending html tags message
+					//javascript for this error
+					echo '
+						<script type="text/javascript">
+							alert("Image Already exists: '. $_FILES["file"]["name"] .' ");
+							history.back();
+						</script>';
+				} 
 				else
-				{	
-					//should update the $e1 value if everything works
-					$to="bbokka@cs.odu.edu";
-					$subject="REGISTRATION CONFIRMATION";
-					
-					$headers = "MIME-Version: 1.0\r\n";	
-					$headers.= "Content-Type: text/html; charset=UTF-8\r\n";
-					$headers.= "Content-Transfer-Encoding: 7bit\r\n";
-					$headers.= "From: bbokka@cs.odu.edu\r\n";
-					
-					$message="<h3><em><font face='verdana' color='red'>Thank you for your Registration.</font></em></h3>";
-					$message.="<a href=\"http://weiglevm.cs.odu.edu/~bbokka/devsandbox/PHPProject4/enterActivationCode.php\">Click to Activate your account</a><br>";
-					$message.="<em><font face='verdana' color='black'>Please enter the six digit code at the link provided.</font></em><br>" .$activation;
-					
-					mail($to, $subject, $message, $headers);
+				{
+					//$image_date= date("Y/m/d");
+					$image_rand =  rand() % 1000000+100000;	
+					$image_value = $image_date.$image_rand .$_FILES["file"]["name"];
+					move_uploaded_file($_FILES["file"]["tmp_name"],"images/" . $image_value);
 				}
-				header("Location: niceMessages.php?action=$page");
+		  }
+		} 
+		else 
+		{
+			echo '	<script type="text/javascript">
+						alert("Invalid Image !! Choose another image");
+						history.back();
+					</script>';	
+		}
+		
+		//checking the user in database and inserting
+		if($fn && $ln && $un && $e1 && $p && $c1 && $image_value)
+		{
+			$query = "SELECT 
+						*
+					FROM 
+						P4_users 
+					WHERE 
+						email='$e1'";
+			$result= mysql_query($query) or die ("Unable to verify email because " . mysql_error());
+			if(mysql_num_rows($result) == 0)
+			{
+				$activation =  rand() % 1000000+10000;
+						
+				$query = "INSERT INTO 
+							P4_users
+								(id,
+								 fname,
+								 lname,
+								 username,
+								 email,
+								 password,
+								 Is_suspended,
+								 Is_verified,
+								 email_setting,
+								 Is_archived,
+								 activationkey,
+								 date_registered,
+								 role_id,
+								 user_profile) 
+							VALUES(' ',
+								  '$fn',
+								  '$ln',
+								  '$un',
+								  '$e1',
+								  '$p',
+								  '0',
+								  '0',
+								  '$c1',
+								  ' ',
+								  '$activation',																					
+								  '$date',
+								  '3',
+								  '$image_value')";		
+				$result= mysql_query($query) or die ("Unable to execute the insert query " . mysql_error());
 				
+				if (mysql_affected_rows() == 1)
+				{
+					//sending plain mesasge with out html
+					if($c1==1)					
+					{
+						$to="bbokka@cs.odu.edu";
+						$subject="REGISTRATION CONFIRMATION";
+						
+						$headers = "MIME-Version: 1.0\r\n";	
+						$headers.= "Content-Type: text/plain; charset=UTF-8\r\n";
+						$headers.= "Content-Transfer-Encoding: 7bit\r\n";
+						$headers.= "From: bbokka@cs.odu.edu\r\n";
+						
+						$message="Thank you for your Registration.";
+						$message.="http://weiglevm.cs.odu.edu/~bbokka/devsandbox/PHPProject4/enterActivationCode.php";
+						$message.="\nPlease enter the six digit code at the link provided." .$activation;
+						
+						mail($to, $subject, $message, $headers);
+					}
+					//sending html tags message
+					else
+					{	
+						//should update the $e1 value if everything works
+						$to="bbokka@cs.odu.edu";
+						$subject="REGISTRATION CONFIRMATION";
+						
+						$headers = "MIME-Version: 1.0\r\n";	
+						$headers.= "Content-Type: text/html; charset=UTF-8\r\n";
+						$headers.= "Content-Transfer-Encoding: 7bit\r\n";
+						$headers.= "From: bbokka@cs.odu.edu\r\n";
+						
+						$message="<h3><em><font face='verdana' color='red'>Thank you for your Registration.</font></em></h3>";
+						$message.="<a href=\"http://weiglevm.cs.odu.edu/~bbokka/devsandbox/PHPProject4/enterActivationCode.php\">Click to Activate your account</a><br>";
+						$message.="<em><font face='verdana' color='black'>Please enter the six digit code at the link provided.</font></em><br>" .$activation;
+						
+						mail($to, $subject, $message, $headers);
+					}
+					header("Location: niceMessages.php?action=$page");
+					
+				}
+				else
+				{
+					echo'
+						<script type="text/javascript">
+							alert("ERROR in sending the email");
+							history.back();
+						</script>';
+				}
 			}
 			else
 			{
+				//when the email is already registered
 				echo'
 					<script type="text/javascript">
-						alert("ERROR in sending the email");
+						alert("The email address is already registered");
 						history.back();
 					</script>';
 			}
 		}
 		else
 		{
-			//when the email is already registered
-			echo'
+		// when the user has NOT provided all the neccessary arguments
+			echo '
 				<script type="text/javascript">
-					alert("The email address is already registered");
+					alert("Please TRY again something is WRONG in filling the form");
 					history.back();
 				</script>';
 		}
 	}
 	else
 	{
-	// when the user has NOT provided all the neccessary arguments
 		echo '
 			<script type="text/javascript">
-				alert("Please TRY again something is WRONG in filling the form");
+				alert("The CAPTCHA you entered is Incorrect!!");
 				history.back();
-			</script>';
+			</script>';	
 	}
+	
 ?>

@@ -447,10 +447,12 @@
 													";
 								$setting_image_result = mysql_query($setting_image_query) or die ("Unable to verify user because " . mysql_error());
 								$setting_image_row = mysql_fetch_assoc($setting_image_result);
+								$setting_image_row=$setting_image_row ['value'];
 							}
 						}
 				echo ' </span></h5>';
 			}
+			$setting_image_row=20;
 			echo '
 				</div>
 					<div class="post_details">
@@ -484,7 +486,7 @@
 							{
 								if(!$row['is_archived'])
 								{
-									if($image_count<$setting_image_row ['value'])
+									if($image_count<$setting_image_row)
 									{
 										echo '<div class="post_picture">
 											<form action="upload_Post_image.php" method="post" enctype="multipart/form-data">

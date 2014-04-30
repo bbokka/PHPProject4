@@ -82,9 +82,9 @@
 				text-transform:uppercase;
 				display:block;
 				min-height: 30px;
-				border:1px solid blue;
+				
 				padding: 2px;
-				background:white;
+				background:#FBB917;
 				
 				-webkit-border-radius: 10px;
 				-moz-border-radius: 10px;
@@ -429,8 +429,8 @@
 									$user_info_row = mysql_fetch_assoc($user_info_query_result);
 									echo '	<h3 style="color:orangered">First Name :'.$user_info_row['fname']. '&nbsp&nbsp<br>Last Name:'.$user_info_row['lname'].'</h3>';
 									echo '	<h5 style="color:green">User Name :'.$user_info_row['username'].'</h5> ';
-									echo '	<h5 style="color:green">User Name :'.$user_info_row['email'].'</h5>';
-									echo '	<h5 style="color:green">User Name :'.$user_info_row['role'].'</h5>';
+									echo '	<h5 style="color:green">User Email :'.$user_info_row['email'].'</h5>';
+									echo '	<h5 style="color:green">User Role :'.$user_info_row['role'].'</h5>';
 									echo "</div>";
 															
 								}

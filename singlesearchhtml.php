@@ -17,44 +17,45 @@
 		<script src="js/superfish.js"></script>
 		<script src="js/forms.js"></script>
 		<style>
-			.category_navigation
+			.search_div
 			{
-				background: #92C7C7;
+				background: white;
 				width: 100%;
 				padding: 10px;
+				min-height:400px;
 				
 				-webkit-border-radius: 10px;
 				-moz-border-radius: 10px;
 				border-radius: 10px;
 			}
-			.category_div
+			.search_inner_div
 			{
-				background: white;
-				width: 100%;
-				display: block;
+				background: #FBB917;
+				width: 90%;
 				padding: 10px;
+				min-height:50px;
 				margin: 5px auto;
+			
+				
 				-webkit-border-radius: 10px;
 				-moz-border-radius: 10px;
 				border-radius: 10px;
 			}
-			.category_div .category_name
+			.search_innermost_div
 			{
-				width: 35%;
-				display: inline-block;
-				margin-left: 2%;
+				background: #92C7C7;
+				width: 90%;
+				padding: 10px;
+				min-height:300px;
+				margin: 2px auto;
+			
+				
+				-webkit-border-radius: 10px;
+				-moz-border-radius: 10px;
+				border-radius: 10px;
 			}
-			.category_div .category_description
-			{
-				width: 60%;
-				display: inline-block;
-			}
-			.category_div .category_name:hover
-			{
-				-webkit-transform: scale(1.1);
-				-webkit-transition-timing-function: ease-out;
-				-webkit-transition-duration: 250ms;
-			}
+			
+			
 		</style>
 	</head>
 	<body>
@@ -90,13 +91,14 @@
 		<section id="content">
 			<div sytle="margin : 0px auto">
 				<div class="main">
-					<div class="category_navigation">
-					<table>
-					<tr>
-						<form method="post" action="singleSearchForum.php">
-						<td><h3 style= "color: white"> Keywords: </h3>
-						<input type="text" name="searchword" /></td><br />
-						<td><h3 style= "color: white"> Search in Forums: </h3>
+					<div class="search_div">
+						<div class="search_inner_div">
+							<h3 style="padding: 10px;">Single Forum Search</h3>
+						</div>
+						<div class="search_innermost_div"><br>
+							<h3 style= "color: green"> Keywords:
+							<form method="post" action="singleSearchForum.php">
+								<input type="text" name="searchword" /> <br><br>Search in Forums:
 								<?php
 									$query1 = "SELECT * 
 												FROM 
@@ -104,18 +106,20 @@
 												WHERE
 													Is_archived=0";
 											$result1 = mysql_query($query1) or die ("Unable to verify user because " . mysql_error());
-											echo '<select name="cat_name" style="width: 100%; display: block;">'; // Open your drop down box
+											echo '<select name="cat_name" display: block;">'; // Open your drop down box
 											// Loop through the query results, outputing the options one by one
 											while ($row1 = mysql_fetch_array($result1))
 											{
 												echo '<option value="'.$row1['id'].'">'.$row1['cat_name'].'</option>';
 											}
 											echo '</select>';
-								?></td><br />
-							<td><input type="submit" name="submit" value=" Search"></td>
-						</form>
-					</tr>
-					</table>
+											
+								?>
+								<input class="btn" type="submit" name="submit" value=" Search">
+							</form>
+								</h3>
+								
+						</div>
 					</div>
 				</div>
 			</div>

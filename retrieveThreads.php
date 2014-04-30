@@ -45,7 +45,7 @@
 					T.thread_name,
 					T.creation_date,
 					U.fname,
-					T.`is_archived`,
+					T.`is_archived` AS T_archived,
 					T.date_last_modified
 				FROM 
 					P4_threads T,
@@ -62,11 +62,17 @@
 			echo '
 				<div class="topicContainer">
 					<div class="topicName">
-					<h5 style="color: green;">
-						<a href="extractPost.php?thread_id='.$row['thread_id'].'"> 
-							'.$row['thread_name'].' 
-						</a>
-					</h5>
+					<h5 style="color: green;">';
+					if(!$row['T_archived'])
+					{
+						echo'<a href="extractPost.php?thread_id='.$row['thread_id'].'"> 
+							'.$row['thread_name'].' </a>' ;
+					}
+					else
+					{
+						echo $row['thread_name'];
+					}
+					echo '</h5>
 					</div>
 					<div class="topicReplies">
 					';

@@ -46,7 +46,7 @@
 				  <div>
 					<h3>
 					<div class="form-txt">First Name:</div>
-					<input type ="text" name="firstname" size="25" maxlength="15" placeholder="Firstname">
+					<input type ="text" name="firstname" size="25" maxlength="15" placeholder="Firstname" >
 					<div class="clear"></div>
 					</h3>
 					&nbsp;
@@ -88,7 +88,7 @@
 				  </div>
 				    <h3>
 					<div class="form-txt">Re-enter Password:</div>
-					<input type ="password" name="password2" size="25" maxlength="15" placeholder="Password">
+					<input type ="password" name="password2" size="25" maxlength="15" placeholder="Password" >
 					<div class="clear"></div>
 					&nbsp;
 				    </h3>

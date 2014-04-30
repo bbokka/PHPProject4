@@ -1,7 +1,6 @@
 <?php
 	session_start();
 	require_once('config.php');
-	if(!is_numeric())
 ?>
 <!DOCTYPE html>
 <html>
@@ -24,7 +23,7 @@
 			{
 				width: 100%;
 				padding: 10px;
-				background: #FBB917;
+				background: #92C7C7;
 				color: white;
 				max-width:1024px;
 				margin: 5px auto;
@@ -83,14 +82,13 @@
 				text-transform:uppercase;
 				display:block;
 				min-height: 30px;
-				border:1px solid red;
 				padding: 2px;
+				background:#FBB917;
 				
 				
 				-webkit-box-shadow: 0 0 5px 2px #fff;
 				-moz-box-shadow: 0 0 5px 2px #fff;
 				box-shadow: 0 0 5px 2px #fff;
-				background:white;
 				-moz-border-radius: 5px;
 				-webkit-border-radius: 5px;
 				-khtml-border-radius: 5px;

@@ -95,11 +95,11 @@
 					<td><h3 style= "color: white"> Category: </h3></td>
 					<td><form method="post" action="search.php">
 					<input type="text" name="search" />
-					<input type="submit" name="submit" value=" Search">
+					<input class="btn" type="submit" name="submit" value=" Search">
 					</form></td>
 					
 					<td><form method="post" action="singlesearchhtml.php">
-					<input type="submit" name="submit" value=" more">
+					<input class="btn" type="submit" name="submit" value=" more">
 					</form></td>
 				 </tr>
 				</table>

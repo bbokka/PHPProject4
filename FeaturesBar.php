@@ -78,6 +78,11 @@
 		echo '<a class="feature';  
 		if($_POST['selected'] == 7) echo ' selected';
 		echo'" href="userStats.php"> User Stats </a>';
+		
+		echo '<a class="feature';  
+		if($_POST['selected'] == 8) echo ' selected';
+		echo'" href="imageSetting.php"> User Post Image  </a>';
+		
 	}
 	if($role != 3)
 	{

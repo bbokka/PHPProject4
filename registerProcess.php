@@ -107,6 +107,16 @@
 			</script>';	
 	}
 	
+	$cp= mysql_real_escape_string($_POST["captcha"]);
+	if(isset($cp)&&$cp!=""&&$_SESSION["code"]==$cp)
+	{
+		//echo " hey captcha worked";
+	}
+	else
+	{
+	die("Wrong Code Entered");
+	}
+	
 	//checking for the image	
 	//creating an array to check for the extension
 	$allowedExts = array("gif", "jpeg", "jpg", "png");

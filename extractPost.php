@@ -10,6 +10,9 @@
 <meta charset="utf-8">
 <link rel="stylesheet" href="css/reset.css" type="text/css" media="screen">
 <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
+
+<link rel="stylesheet" href="css/lightbox.css" type="text/css" media="screen">
+
 <!--<link rel="stylesheet" href="css/grid.css" type="text/css" media="screen"> -->
 <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
@@ -17,6 +20,8 @@
 <script src="js/jquery-1.7.1.min.js" ></script>
 <script src="js/superfish.js"></script>
 <script src="js/forms.js"></script>
+
+<script src="js/lightbox.js"></script>
 <style>
 	.category_navigation
 	{
@@ -86,7 +91,7 @@
 		margin-left: auto;
 		margin-right: auto;
 	}
-	.post_content, .post_Audits
+	.post_content, .post_Audits_picture
 	{
 		width: 100%;
 	}
@@ -119,6 +124,16 @@
 	{
 		background: url("images/delete_button.png") no-repeat;
 		background-color: #FBB917;
+	}
+	div.post_Audits
+	{
+		width: 45%;
+		float: left;
+	}
+	div.post_picture
+	{
+		width: 45%;
+		float: right;
 	}
 </style>
 </head>
@@ -283,7 +298,8 @@
 						WHERE  
 								P.thread_id = $thread 
 								AND U.role_id = UR.id 
-								AND U.id = P.posted_by) 
+								AND U.id = P.posted_by
+								) 
 						A, 
 						P4_users B 
 					WHERE  
@@ -376,7 +392,7 @@
 			<div class="post_container">
 			<div class="non_actions_part">
 				<div class="post_owner_details">
-					<span> <img alt="" src="images/'.$row['user_profile'].'" width="140" height="140" ></img> </span>
+					<span><a href ="images/'.$row['user_profile'].'"  rel="lightbox"><img alt="" src="images/'.$row['user_profile'].'" width="140" height="140" ></img></a> </span>
 					<span><h5><a href="userProfile.php?useraction='.$row['user_id'].'" style="color:green"> '.$row['fname'].' </a> </span>
 					<span> '.$row['role_name'].'</h5></span>
 					';
@@ -391,6 +407,8 @@
 							FROM   
 								P4_posts P
 								RIGHT JOIN P4_users U ON P.posted_by = U.id 
+							WHERE
+								P.Is_archived=0
 							GROUP BY username
 							";
 						$sqlresult = mysql_query($sql) or die ("Unable to verify user because " . mysql_error());
@@ -400,37 +418,90 @@
 							{
 								$postCount = $sqlrow['Num_posts'];
 								if($postCount==0)
+								{
 									echo 'No-Life';
+									$setting_id=2;
+								}
 								else if($postCount <=5 && $postCount > 0)
+								{
 									echo 'Newbie';
+									$setting_id=3;
+								}
 								else if($postCount<=10 && $postCount>5)
+								{
 									echo 'Active';
+									$setting_id=4;
+								}
 								else
+								{
 									echo 'Veteran';
-									
+									$setting_id=5;
+								}
+								$setting_image_query= "
+													SELECT 
+														value													
+													FROM   
+														P4_setting
+													WHERE
+														setting_id=".$setting_id."														
+													";
+								$setting_image_result = mysql_query($setting_image_query) or die ("Unable to verify user because " . mysql_error());
+								$setting_image_row = mysql_fetch_assoc($setting_image_result);
 							}
 						}
 				echo ' </span></h5>';
 			}
 			echo '
-					</div>
+				</div>
 					<div class="post_details">
 						<div class="post_content">
-							<h5 style="color:green">'.$row['post_content'].'</h5>
-						</div>
-						<div class="post_Audits">
-							<span> <h5 style="color:blue">Created: '.$row['date_created'].'</h5></span>
-							<span> <h5 style="color:blue">Last Modified: '.$row['date_last_modified'].'<br> By '.$row['Modified_post_by'].'</h5></span>
-						</div>
+							<h5 style="color:green">'.$row['post_content'].'</h5>';
+							$user_postImage_query = "
+													SELECT 
+														post_id,
+														post_image 
+													FROM 
+														P4_post_images PI 
+													WHERE PI.post_id = ".$row['post_id']."";
+							$user_postImage_query_result = mysql_query($user_postImage_query) or die ("Unable to verify user because " . mysql_error());
+							$image_count=mysql_num_rows($user_postImage_query_result);
+							while($user_postImage_query_result_row = mysql_fetch_assoc($user_postImage_query_result))
+							{
+								if(!$row['is_archived'])
+								{
+									echo '<a href="images/'.$user_postImage_query_result_row['post_image'].'" rel="lightbox"><img alt="" src="images/'.$user_postImage_query_result_row['post_image'].'" width="60" height="60" style="border:2px solid green"></img></a>&nbsp&nbsp';
+								}
+							}
+							echo '</div>
+							<div class="post_Audits_picture">
+							<div class="post_Audits">
+								<span> <h5 style="color:blue">Created:'.$row['date_created'].'</h5></span>';
+								
+									echo'<span> <h5 style="color:blue">Last Modified: '.$row['date_last_modified'].'<br> By '.$row['Modified_post_by'].'</h5></span>
+								
+							</div>';
+							if($row['user_id']==$_SESSION['login_id'])
+							{
+								if(!$row['is_archived'])
+								{
+									if($image_count<$setting_image_row ['value'])
+									{
+										echo '<div class="post_picture">
+											<form action="upload_Post_image.php" method="post" enctype="multipart/form-data">
+												<input type="hidden" name="post_id" value="'.$row['post_id'].'">
+												<input type="hidden" name="thread_id" value="'.$thread.'">
+												<input class="btn" type="file" name="file" id="file"><br>
+												<input class="btn" type="submit" name="submit" value="Upload">
+											</form></div>';
+									}
+								}
+							}
+					echo'</div>
 					</div>
 				</div>
 				<div class="post_Actions">
 					';
-					if($row['is_archived'])
-					{
-						echo 'This post has been deleted';
-					}
-					else
+					if(!$row['is_archived'])
 					{
 						$show_edit_button = 0;
 						$show_delete_button = 0;
@@ -444,12 +515,7 @@
 							$show_edit_button = 1;
 							$show_delete_button = 1;
 						}
-						
-						/*if(!$show_edit_button && !$show_edit_button)
-						{
-							echo 'No actions available';
-						}*/
-						
+											
 						//dispalying the edit button for the respective logged in user
 						if($show_edit_button)
 						{

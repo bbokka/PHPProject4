@@ -78,7 +78,8 @@
 								FROM 
 									P4_posts 
 								WHERE 
-									thread_id = $thread_id";
+									thread_id = $thread_id
+									AND is_archived=0";
 						$result2 = mysql_query($query1) or die ("Unable to verify user because " . mysql_error());
 						$row2 = mysql_fetch_assoc($result2);
 						echo '<h5 style="color: blue;">';

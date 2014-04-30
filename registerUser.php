@@ -93,7 +93,16 @@
 					&nbsp;
 				    </h3>
 					<div>
-					<h4>
+					<h3>
+						Please Enter Image Text
+						<img src="captcha.php" /><br>
+						<input name="captcha" type="text">
+						<div class="clear"></div>
+						&nbsp;
+					</h3>
+				  </div>
+					<div>
+					<h3>
 					<div class="form-txt">Type of Email you want to receive:</div>
 					<input type="radio" name="choice" value="1">text/plain<br>
 					<input type="radio" name="choice" value="2">text/html
@@ -103,7 +112,7 @@
 					<input type="file" name="file" id="file"><br>
 					<div class="clear"></div>
 					&nbsp;
-				  </h4>
+				  </h3>
 				  </div>
 				</div>
 				<div class="clear"></div>

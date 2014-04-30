@@ -9,6 +9,7 @@
 		<meta charset="utf-8">
 		<link rel="stylesheet" href="css/reset.css" type="text/css" media="screen">
 		<link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
+		<link rel="stylesheet" href="css/lightbox.css" type="text/css" media="screen">
 		<!--<link rel="stylesheet" href="css/grid.css" type="text/css" media="screen"> -->
 		<link rel="icon" href="images/favicon.ico" type="image/x-icon">
 		<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
@@ -16,6 +17,7 @@
 		<script src="js/jquery-1.7.1.min.js" ></script>
 		<script src="js/superfish.js"></script>
 		<script src="js/forms.js"></script>
+		<script src="js/lightbox.js"></script>
 		<style>
 			.user_profile_bar
 			{
@@ -173,6 +175,7 @@
 				text-align: center;
 				margin-bottom: 2%;
 			}
+			
 			</style>
 	</head>
 	<body>
@@ -258,14 +261,14 @@
 								$result = mysql_query($query) or die ("Unable to execute query and reterive user profile " . mysql_error());
 								while($row = mysql_fetch_assoc($result))
 								{
-									echo '<img alt="" src="images/'.$row['user_profile'].'" width="140" height="140" ></img> ';
+									echo ' <a href ="images/'.$row['user_profile'].'" rel="lightbox"><img alt="" src="images/'.$row['user_profile'].'" width="140" height="140" ></img></a> ';
 								}
 								if($user_id==$_SESSION['login_id'] )
 								{
 									echo '
 										<form action="upload_image.php" method="post" enctype="multipart/form-data">
-										<input type="file" name="file" id="file"><br>
-										<input type="submit" name="submit" value="Upload">
+											<input type="file" name="file" id="file"><br>
+											<input type="submit" name="submit" value="Upload">
 										</form>';
 								}
 							?>
@@ -288,7 +291,10 @@
 														FROM   
 															P4_posts P
 															RIGHT JOIN P4_users U ON P.posted_by = U.id 
-															GROUP BY username
+														WHERE
+															P.Is_archived=0
+														GROUP BY username
+															
 														)
 														A 
 													WHERE A.id=".$user_id ."";
@@ -377,22 +383,19 @@
 									while($user_posts_row = mysql_fetch_assoc($user_posts_query_result))
 									{
 										echo '<h5 style="color:blue"><div class="Form_Box">';
-										echo '	<div class ="image_part">';
-										echo '	<img alt="" src="images/'.$user_posts_row['user_profile'].'" width="60" height="60" ></img> 
+										echo '	<div class ="image_part">
+													<img alt="" src="images/'.$user_posts_row['user_profile'].'" width="60" height="60" ></img> 
 												</div>';
 										
-										echo '	<div class="post_details">';
-											echo '	<div class="post_Audits">';
-												echo '<a href="extractPost.php?thread_id='.$user_posts_row['thread_id'].' " style="color:blue">'.$user_posts_row['thread_name'].'</a>';
-												
-											echo '	</div>';
-											
-											echo '	<div class ="post_content">';
-												echo  ' <a href="extractPost.php?thread_id='.$user_posts_row['thread_id'].' " style="color:green">'.$user_posts_row['post_content'].'</a>';
-											echo '	</div>';
-											
-											$date_posted = explode(" ",$user_posts_row['date_created']);
-											echo '<div class="post_Audits">';
+										echo '	<div class="post_details">
+													<div class="post_Audits">
+														<a href="extractPost.php?thread_id='.$user_posts_row['thread_id'].' " style="color:blue">'.$user_posts_row['thread_name'].'</a>
+													</div>
+													<div class ="post_content">
+														 <a href="extractPost.php?thread_id='.$user_posts_row['thread_id'].' " style="color:green">'.$user_posts_row['post_content'].'</a>
+													</div>';
+													$date_posted = explode(" ",$user_posts_row['date_created']);
+												echo '	<div class="post_Audits">';
 												echo 'Posted by :<a href="userProfile.php?useraction='.$user_id.' " style="color:orangered">'.$user_posts_row['fname'].'</a>' ;
 												
 												echo '&nbsp at '.$date_posted[0];

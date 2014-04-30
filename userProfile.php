@@ -10,6 +10,7 @@
 		<meta charset="utf-8">
 		<link rel="stylesheet" href="css/reset.css" type="text/css" media="screen">
 		<link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
+		<link rel="stylesheet" href="css/lightbox.css" type="text/css" media="screen">
 		<!--<link rel="stylesheet" href="css/grid.css" type="text/css" media="screen"> -->
 		<link rel="icon" href="images/favicon.ico" type="image/x-icon">
 		<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
@@ -17,6 +18,7 @@
 		<script src="js/jquery-1.7.1.min.js" ></script>
 		<script src="js/superfish.js"></script>
 		<script src="js/forms.js"></script>
+		<script src="js/lightbox.js"></script>
 		<style>
 			.user_profile_bar
 			{
@@ -220,16 +222,16 @@
 								$result = mysql_query($query) or die ("Unable to execute query and reterive user profile " . mysql_error());
 								while($row = mysql_fetch_assoc($result))
 								{
-									echo '<img alt="" src="images/'.$row['user_profile'].'" width="140" height="140" ></img> ';
+									echo ' <a href ="images/'.$row['user_profile'].'" rel="lightbox"><img alt="" src="images/'.$row['user_profile'].'" width="140" height="140" ></img></a> ';
 								}
 								if($user_id==$_SESSION['login_id'] )
 								{
 								echo '
 								
 									<form action="upload_image.php" method="post" enctype="multipart/form-data">
-									<input type="hidden" name="userprofile" value="<?php echo '.$user_id.'?> " />
-									<input type="file" name="file" id="file"><br>
-									<input type="submit" name="submit" value="Upload">
+									<input  type="hidden" name="userprofile" value="<?php echo '.$user_id.'?> " />
+									<input  type="file" name="file" id="file"><br>
+									<input class ="btn" type="submit" name="submit" value="Upload">
 									</form>';
 								}
 							?>
@@ -252,7 +254,10 @@
 														FROM   
 															P4_posts P
 															RIGHT JOIN P4_users U ON P.posted_by = U.id 
-															GROUP BY username
+														WHERE
+															P.Is_archived=0
+														GROUP BY username
+															
 														)
 														A 
 													WHERE A.id=".$user_id ."";

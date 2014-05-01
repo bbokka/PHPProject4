@@ -10,7 +10,9 @@
 	$query ="UPDATE
 				`P4_setting` 
 			SET 
-				`value` = $limit_value1";
+				`value` = $limit_value1
+			WHERE 
+				setting_id=1";
 	
 	$result = mysql_query($query) or die ("Unable to verify user because " . mysql_error());
 	if(!$result) die("Error updating the limit value");

@@ -60,6 +60,16 @@
 			setcookie('ID_my_site', $_POST['emailId'], $hour);
 			setcookie('Key_my_site', $_POST['pwd'], $hour);
 		}
+		else
+		{
+			if(isset($_COOKIE['ID_my_site']))
+			{
+				$hour=time()-3600;
+				setcookie('ID_my_site'," ", $hour);
+				
+			}
+		}
+		
 		header("Location: index.php");
 	}
 	//else redirect to the page

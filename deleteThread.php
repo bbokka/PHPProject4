@@ -11,7 +11,7 @@
 	$query = "	UPDATE
 					P4_threads
 				SET 
-					`is-archived` = 1,
+					`is_archived` = 1,
 					`last_modified_by` = $modified_by,
 					date_last_modified = '$date'
 				WHERE 

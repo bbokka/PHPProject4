@@ -1,7 +1,7 @@
 <?php
 	session_start();
 	require_once('config.php');
-
+	
 	//session values for all the category and thread and user
 	$categoryNumber = $_SESSION['category'];
 	$threadComment = $_REQUEST['thread_id'];
@@ -41,11 +41,13 @@
 		{
 			if( $freeze == 0)
 			{
-				$post_content = mysql_real_escape_string($_POST['comment']);
-				if (!empty($post_content))
-				{
+				//$post_content = mysql_real_escape_string($_POST['comment']);
+				$post_content = $_POST['comment'];
+				$post_content = nl2br($post_content);
+				$post_content = mysql_real_escape_string($post_content);
 				
-					
+				if (!empty($post_content))
+				{	
 					$query = "
 							INSERT INTO  
 								P4_posts
@@ -65,7 +67,34 @@
 								$whoPosted,
 								0)";
 					$result = mysql_query($query) or die ("Unable to verify user because " . mysql_error());
-					header("Location: extractPost.php?thread_id=".$threadComment);
+					////for pagination
+	
+					//query to get the number of posts in that thread	
+					$query="SELECT
+								count(post_id)
+							FROM 
+								P4_posts 
+							WHERE 
+								thread_id='$threadComment'";
+					$result = mysql_query($query) or die ("Unable to verify user because " . mysql_error());
+					$row=mysql_fetch_array($result);
+					$rows=$row[0];
+					
+					 //query to set the page limit value
+					$query1="SELECT 
+								value AS limit_value
+							FROM 
+								P4_setting
+							WHERE
+								Type_unique = 'Pagination_limit'";
+					$result1 = mysql_query($query1) or die ("Unable to verify user because " . mysql_error());
+					$row1=mysql_fetch_array($result1);
+					$page_rows = $row1['limit_value'];
+					
+					$last = ceil($rows/$page_rows);
+
+					////
+					header("Location: extractPost.php?thread_id=".$threadComment. "&pn=".$last);//addpage
 				} 
 				else 
 				{

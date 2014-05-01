@@ -62,7 +62,7 @@ session_start();
 				<form method='post' action='insertCategoryAdmin.php'>
 				Category name: <input type='text' name='cat_name' /><br><br>
 				Category description: <textarea name='cat_description' /></textarea><br>
-				<input type='submit' value='Add category' />
+				<input class="btn" type='submit' value='Add category' />
 				 </form>
 			</div><h5>
 			

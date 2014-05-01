@@ -185,31 +185,47 @@
 	{
 		echo "	<script> 
 					alert('Sorry something went wrong!'); 
-					location.href='showCategory.php'; 
+					location.href ='showCategory.php'; 
 				</script> ";
 	}
 	else 
 	{
-		$query="
+		$query_check="
 			SELECT 
 				* 
 			FROM
-				P4_posts 
+				P4_threads 
 			WHERE
 				thread_id = '$thread'";
-		$result = mysql_query($query) or die ("Unable to verify user because " . mysql_error());
-		$num_rows = mysql_fetch_array($result);
-		if($num_rows ==0)
+		$result_check = mysql_query($query_check) or die ("Unable to verify user because " . mysql_error());
+		$num_rows_check = mysql_fetch_array($result_check);
+		if($num_rows_check > 0)
 		{
-			$have_no_posts = 1;
-			echo "	<div class=\"error\"> 
-						This topic has no posts.
-					</div>";
+			$query="
+				SELECT 
+					* 
+				FROM
+					P4_posts 
+				WHERE
+					thread_id = '$thread'";
+			$result = mysql_query($query) or die ("Unable to verify user because " . mysql_error());
+			$num_rows = mysql_fetch_array($result);
+			if($num_rows ==0)
+			{
+				$have_no_posts = 1;
+				echo "	<div class=\"error\"> 
+							This topic has no posts.
+						</div>";
+			}
+			else if($num_rows>0)
+			{
+				$thread = mysql_real_escape_string($thread);
+				$_SESSION['thread'] = $thread;
+			}
 		}
-		else if($num_rows>0)
+		else
 		{
-			$thread = mysql_real_escape_string($thread);
-			$_SESSION['thread'] = $thread;
+			header("location:kill.php");
 		}
 	}
 	
@@ -328,20 +344,18 @@
 			
 			$paginationCtrls .= ''.$pagenum.' &nbsp; ';
 			
-			for($i = $pagenum+1; $i <= $last; $i++) 
+			for($i = $pagenum+1; $i <= $last; $i++)
 			{
 				$paginationCtrls .= '<a href="'.$_SERVER['PHP_SELF'].'?pn='.$i.'">'.$i.'</a> &nbsp; ';
-				if($i >= $pagenum+4)
+				if($i >= $pagenum+10)
 				{
 					break;
 				}
 			}
-			
-			
 			if ($pagenum != $last) 
 			{
 				$next = $pagenum + 1;
-				$paginationCtrls .= ' &nbsp; &nbsp; <a href="'.$_SERVER['PHP_SELF']. '?pn='.$next.'>Next</a> ';
+				$paginationCtrls .= ' &nbsp; &nbsp; <a href="'.$_SERVER['PHP_SELF']. '?pn='.$next.'">Next</a>';
 			}
 		}
 		$list = '';
@@ -396,6 +410,7 @@
 					<span><h5><a href="userProfile.php?useraction='.$row['user_id'].'" style="color:green"> '.$row['fname'].' </a> </span>
 					<span> '.$row['role_name'].'</h5></span>
 					';
+			$setting_image_row=20;
 			if($row['role_id'] == 3)
 			{
 				echo '
@@ -452,7 +467,7 @@
 						}
 				echo ' </span></h5>';
 			}
-			$setting_image_row=20;
+			
 			echo '
 				</div>
 					<div class="post_details">
@@ -478,10 +493,12 @@
 							<div class="post_Audits_picture">
 							<div class="post_Audits">
 								<span> <h5 style="color:blue">Created:'.$row['date_created'].'</h5></span>';
-								
-									echo'<span> <h5 style="color:blue">Last Modified: '.$row['date_last_modified'].'<br> By '.$row['Modified_post_by'].'</h5></span>
-								
-							</div>';
+								if($row['date_created'] !=$row['date_last_modified'])
+								{
+									echo'<span> <h5 style="color:blue">Last Modified: '.$row['date_last_modified'].'<br> </h5></span>';
+								}
+							echo '<h5 style="color:blue">By '.$row['Modified_post_by'].'</h5>';
+							echo '</div>';
 							if($row['user_id']==$_SESSION['login_id'])
 							{
 								if(!$row['is_archived'])

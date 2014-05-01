@@ -1,10 +1,11 @@
 <?php
-	$server		= 'weiglevm.cs.odu.edu';
-	$dbusername	= 'vputta';
-	$dbpassword	= 'vaidhu';
-	$database	= 'vputta';
-	
-	$connect 	= mysql_connect($server, $dbusername,  $dbpassword) or die ("Check your server connection.". mysql_error());
+	$server	= 'localhost';
+	$dbusername	= 'bbokka';
+	$dbpassword	= 'balareddy';
+	$database	= 'bbokka';
+
+	$connect =mysql_connect($server, $dbusername,  $dbpassword) or 
+	die ("Check your server connection.");
 	
 	mysql_select_db($database) or die ("Check your server connection.");	
 ?>

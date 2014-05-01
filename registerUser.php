@@ -46,7 +46,7 @@
 				  <div>
 					<h3>
 					<div class="form-txt">First Name:</div>
-					<input type ="text" name="firstname" size="25" maxlength="15" placeholder="Firstname" >
+					<input type ="text" name="firstname" size="25" maxlength="15" placeholder="Firstname" +>
 					<div class="clear"></div>
 					</h3>
 					&nbsp;

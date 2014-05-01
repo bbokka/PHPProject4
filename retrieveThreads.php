@@ -45,8 +45,9 @@
 					T.thread_name,
 					T.creation_date,
 					U.fname,
-					T.`is_archived` AS T_archived,
-					T.date_last_modified
+					T.`is_archived` ,
+					T.date_last_modified,
+					T.is_freezed
 				FROM 
 					P4_threads T,
 					P4_users U
@@ -58,12 +59,13 @@
 		
 		$result = mysql_query($query) or die ("Unable to verify user because " . mysql_error());
 		while($row = mysql_fetch_assoc($result))
-		{		
+		{	
+			
 			echo '
 				<div class="topicContainer">
 					<div class="topicName">
 					<h5 style="color: green;">';
-					if(!$row['T_archived'])
+					if($row['is_archived'] == 0)
 					{
 						echo'<a href="extractPost.php?thread_id='.$row['thread_id'].'"> 
 							'.$row['thread_name'].' </a>' ;
@@ -91,32 +93,34 @@
 						echo '<h5 style="color: blue;">';
 						echo $row2['no_of_replies'];
 						echo '</h5>';
+						
+						echo '	</div>
+							<div class="topicActions">
+							';
+
 			if($_SESSION['rank']!=3)
 			{		
-				echo '	</div>
-					<div class="topicActions">
-					';
+
 					if($row['is_archived'] == 0)
 					{
-						
-							// Edit Button
-							echo '	
-								<div>
-									<form action="editThread.php" method="post">
-										<input type="hidden" name="thread_id" value="'.$row['thread_id'].'"/>
-										<input class="edit_button" type="submit" value="" />
-									</form>
-								</div>';
-						
-							// Delete Button
-							echo '	
-								<div>
-									<form action="deleteThread.php" method="post">
-										<input type="hidden" name="thread_id" value="'.$row['thread_id'].'"/>
-										<input type="hidden" name="category_id" value="'.$category.'"/>
-										<input class="delete_button" type="submit" value="" />
-									</form>
-								</div>';
+						// Edit Button
+						echo '	
+							<div>
+								<form action="editThread.php" method="post">
+									<input type="hidden" name="thread_id" value="'.$row['thread_id'].'"/>
+									<input class="edit_button" type="submit" value="" />
+								</form>
+							</div>';
+					
+						// Delete Button
+						echo '	
+							<div>
+								<form action="deleteThread.php" method="post">
+									<input type="hidden" name="thread_id" value="'.$row['thread_id'].'"/>
+									<input type="hidden" name="category_id" value="'.$category.'"/>
+									<input class="delete_button" type="submit" value="" />
+								</form>
+							</div>';
 						
 					}
 					else
@@ -125,6 +129,15 @@
 						echo 'Topic has been deleted';
 						echo '</h5>';
 					}
+					
+			}
+			else
+			{
+				echo "&nbsp";
+			}
+			if($row['is_freezed']==1)
+			{
+				echo '<h5 style="color:blue">Topic has been Frozen</h5>';
 			}
 			echo '	</div>
 					<div class="topicActionDescription">

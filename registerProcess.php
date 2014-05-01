@@ -214,7 +214,7 @@
 					//sending plain mesasge with out html
 					if($c1==1)					
 					{
-						$to="bbokka@cs.odu.edu";
+						$to=$e1;
 						$subject="REGISTRATION CONFIRMATION";
 						
 						$headers = "MIME-Version: 1.0\r\n";	
@@ -223,7 +223,7 @@
 						$headers.= "From: bbokka@cs.odu.edu\r\n";
 						
 						$message="Thank you for your Registration.";
-						$message.="http://weiglevm.cs.odu.edu/~bbokka/devsandbox/PHPProject4/enterActivationCode.php";
+						$message.="http://weiglevm.cs.odu.edu/~bbokka/proj4/enterActivationCode.php";
 						$message.="\nPlease enter the six digit code at the link provided." .$activation;
 						
 						mail($to, $subject, $message, $headers);
@@ -232,7 +232,7 @@
 					else
 					{	
 						//should update the $e1 value if everything works
-						$to="bbokka@cs.odu.edu";
+						$to=$e1;
 						$subject="REGISTRATION CONFIRMATION";
 						
 						$headers = "MIME-Version: 1.0\r\n";	
@@ -241,7 +241,7 @@
 						$headers.= "From: bbokka@cs.odu.edu\r\n";
 						
 						$message="<h3><em><font face='verdana' color='red'>Thank you for your Registration.</font></em></h3>";
-						$message.="<a href=\"http://weiglevm.cs.odu.edu/~bbokka/devsandbox/PHPProject4/enterActivationCode.php\">Click to Activate your account</a><br>";
+						$message.="<a href=\"http://weiglevm.cs.odu.edu/~bbokka/proj4/enterActivationCode.php\">Click to Activate your account</a><br>";
 						$message.="<em><font face='verdana' color='black'>Please enter the six digit code at the link provided.</font></em><br>" .$activation;
 						
 						mail($to, $subject, $message, $headers);

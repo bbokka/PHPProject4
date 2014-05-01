@@ -123,14 +123,8 @@
 <div sytle="margin : 0px auto">
 <div class="main">
 <?php 
-	if(empty($_POST['search']))
-	{
-		echo '	<script type="text/javascript">
-					alert("Please enter a search keyword!!");
-					history.back();
-				</script>';
-	}
-	else
+
+	if(!empty($_POST['search']))
 	{
 		echo '	<div class = "category_navigation">
 					<h3 style="color:white"><a href="showCategory.php" style="color:white">Forums</a> >>Search</h3>
@@ -138,6 +132,9 @@
 		echo '	<div class = "search_results">
 					<h3 style="color:white"> All Forum Search Results</h3>
 				</div>';
+		$postcount = 0;
+		$threadscount = 0;
+		
 		$search=$_POST['search'];
 		$query="SELECT 
 					* 
@@ -148,7 +145,15 @@
 			   order by date_created";
 					
 		$result= mysql_query($query) or die ("Unable to verify user because " . mysql_error());
-		$number = mysql_num_rows($result);
+		//$number = mysql_num_rows($result);
+		if(mysql_num_rows($result) <= 0 )
+		{
+			$query="SELECT * FROM P4_posts WHERE post_content like '%$search%' and is_archived=0 order by date_created";
+			//echo $query;
+			$result= mysql_query($query) or die ("Unable to verify user because " . mysql_error());
+		}
+	
+		$postcount = mysql_num_rows($result);
 		
 		while($row = mysql_fetch_array($result))
 		{
@@ -194,7 +199,14 @@
 				order by creation_date";
 					
 		$result3= mysql_query($query3) or die ("Unable to verify user because " . mysql_error());
-		$count3=mysql_num_rows($result3);
+		
+		if(mysql_num_rows($result3) <= 0 )
+		{
+			$query3="SELECT * FROM P4_threads WHERE thread_name like '%$search%' and is_archived=0 order by creation_date";
+			$result3= mysql_query($query3) or die ("Unable to verify user because " . mysql_error());
+		}	
+		
+		$threadscount = mysql_num_rows($result3);
 		
 		while($row3 = mysql_fetch_array($result3))
 		{
@@ -223,6 +235,19 @@
 				}
 		}
 		
+		if($threadscount == 0 && $postcount == 0)
+		{
+			echo '<div class = "search_Container" >';
+			echo 'No search results found';
+			echo '</div>';
+		}
+	}
+	else
+	{
+		echo '	<script type="text/javascript">
+					alert("Please enter a search keyword!!");
+					history.back();
+				</script>';
 	}
 ?>	
 	</div>

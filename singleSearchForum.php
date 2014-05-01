@@ -133,6 +133,9 @@
 		$search_word=mysql_real_escape_string( $_POST['searchword']);
 		$cat_val=mysql_real_escape_string( $_POST['cat_name']);
 		$submit_btn= mysql_real_escape_string( $_POST["submit"]);
+			
+		$postcount = 0;
+		$threadscount = 0;
 		
 		$query1="SELECT * FROM P4_threads " .
 					"WHERE MATCH(thread_name) AGAINST('$search_word' IN BOOLEAN MODE) 
@@ -141,6 +144,15 @@
 				order by creation_date";
 					
 		$result1= mysql_query($query1) or die ("Unable to verify user because " . mysql_error());
+	
+		
+		if(mysql_num_rows($result1) <= 0 )
+		{
+			$query1="SELECT * FROM P4_threads WHERE thread_name like '%$search_word%' and category_id=$cat_val and is_archived=0 order by creation_date";
+			$result1= mysql_query($query1) or die ("Unable to verify user because " . mysql_error());
+		}	
+		
+		$threadscount = mysql_num_rows($result1);
 		
 		while($row1 = mysql_fetch_array($result1))
 		{
@@ -170,11 +182,14 @@
 				}
 		}
 		
+		////////////////////////////////////////////////////////////////////////////////////////
+		
 		$query="SELECT thread_id,thread_name
 				from P4_threads
 				where category_id=$cat_val";
 					
 		$result= mysql_query($query) or die ("Unable to verify user because " . mysql_error());
+		
 		
 		while($row = mysql_fetch_array($result))
 		{
@@ -189,6 +204,15 @@
 					order by date_created";
 					
 			$result2= mysql_query($query2) or die ("Unable to verify user because " . mysql_error());
+			
+			if(mysql_num_rows($result2) <= 0 )
+			{
+				$query2="SELECT * FROM P4_posts WHERE post_content like '%$search_word%' and Is_archived=0 and thread_id=$th_id order by date_created";
+				//echo $query;
+				$result2= mysql_query($query2) or die ("Unable to verify user because " . mysql_error());
+			}
+	
+			$postcount = mysql_num_rows($result2);
 			
 			while($row2 = mysql_fetch_array($result2))
 			{  
@@ -227,12 +251,18 @@
 				}
 			}
 		}
+		if($threadscount == 0 && $postcount == 0)
+		{
+			echo '<div class = "search_Container" >';
+			echo 'No search results found';
+			echo '</div>';
+		} 
 	}
 	else
 	{
 		echo '	<script type="text/javascript">
 					alert("Please enter a search keyword!!");
-					history.back();
+					window.location.href="singlesearchhtml.php";
 				</script>';
 	}
 	
